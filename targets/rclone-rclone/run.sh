@@ -10,6 +10,13 @@
 #
 # CHECKS is rapid's -rapid.checks value (default: 100, rapid's own default).
 # Set GO to override the go binary.
+#
+# Note: the backend/chunker test binary also links upstream's own test
+# files, which import the fstest framework and thereby all 70+ backends;
+# on a loaded machine that link can take a very long time. The properties
+# themselves exercise only non-test code. See results/README.md for how
+# the recorded runs handled this (compile isolation in the scratch clone,
+# upstream test files restored afterwards).
 set -euo pipefail
 
 PIN="1053463755dea408a4abd42bf2ce917a3884a62a"

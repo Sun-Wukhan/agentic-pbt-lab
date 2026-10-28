@@ -1,0 +1,11 @@
+=== RUN   TestPBTCipherDecryptNeverPanics
+    pbt_cipher_test.go:68: [rapid] OK, passed 2000 tests (78.331947ms)
+--- PASS: TestPBTCipherDecryptNeverPanics (0.08s)
+=== RUN   TestPBTCipherEncryptDecryptRoundTrip
+    pbt_cipher_test.go:85: [rapid] OK, passed 2000 tests (500.979154ms)
+--- PASS: TestPBTCipherEncryptDecryptRoundTrip (0.50s)
+=== RUN   TestPBTObfuscateUnicodeRoundTrip
+    pbt_cipher_test.go:119: [rapid] OK, passed 2000 tests (31.595814ms)
+--- PASS: TestPBTObfuscateUnicodeRoundTrip (0.03s)
+PASS
+ok  	github.com/rclone/rclone/backend/crypt	0.708s

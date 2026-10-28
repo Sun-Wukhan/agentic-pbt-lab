@@ -1,0 +1,20 @@
+=== RUN   TestPBTParseNeverPanics
+    pbt_fspath_test.go:24: [rapid] OK, passed 2000 tests (17.108202ms)
+--- PASS: TestPBTParseNeverPanics (0.02s)
+=== RUN   TestPBTParseRoundTrip
+    pbt_fspath_test.go:36: [rapid] OK, passed 2000 tests (33.50668ms)
+--- PASS: TestPBTParseRoundTrip (0.03s)
+PASS
+ok  	github.com/rclone/rclone/fs/fspath	0.103s
+=== RUN   TestPBTGlobNeverPanics
+    pbt_filter_test.go:21: [rapid] OK, passed 2000 tests (72.012197ms)
+--- PASS: TestPBTGlobNeverPanics (0.07s)
+=== RUN   TestPBTGlobLiteralSelfMatch
+    pbt_filter_test.go:36: [rapid] OK, passed 2000 tests (49.36026ms)
+--- PASS: TestPBTGlobLiteralSelfMatch (0.05s)
+=== RUN   TestPBTFilterAddNeverPanics
+    pbt_filter_test.go:61: [rapid] fail file "testdata/rapid/TestPBTFilterAddNeverPanics/TestPBTFilterAddNeverPanics-20261028222831-54554.fail" is no longer valid
+    pbt_filter_test.go:61: [rapid] OK, passed 2000 tests (31.161361ms)
+--- PASS: TestPBTFilterAddNeverPanics (0.03s)
+PASS
+ok  	github.com/rclone/rclone/fs/filter	0.186s

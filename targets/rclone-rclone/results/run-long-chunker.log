@@ -1,0 +1,8 @@
+=== RUN   TestPBTChunkerMetadataNeverPanics
+    pbt_chunker_test.go:27: [rapid] OK, passed 2000 tests (126.406338ms)
+--- PASS: TestPBTChunkerMetadataNeverPanics (0.13s)
+=== RUN   TestPBTChunkerMetadataRoundTrip
+    pbt_chunker_test.go:58: [rapid] OK, passed 2000 tests (286.277413ms)
+--- PASS: TestPBTChunkerMetadataRoundTrip (0.29s)
+PASS
+ok  	github.com/rclone/rclone/backend/chunker	0.680s

@@ -1,0 +1,8 @@
+=== RUN   TestPBTSizeSuffixSetNeverPanics
+    pbt_fs_test.go:39: [rapid] OK, passed 2000 tests (49.083666ms)
+--- PASS: TestPBTSizeSuffixSetNeverPanics (0.05s)
+=== RUN   TestPBTCountSuffixSetNeverPanics
+    pbt_fs_test.go:52: [rapid] OK, passed 2000 tests (9.718648ms)
+--- PASS: TestPBTCountSuffixSetNeverPanics (0.01s)
+PASS
+ok  	github.com/rclone/rclone/fs	0.125s
