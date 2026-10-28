@@ -1,0 +1,88 @@
+# Target registry for the Agentic PBT Lab.
+# Every target gets: targets/<slug>/PROPERTIES.md, harness/, run.sh, findings/.
+# Status: queued | building | running | triaged | reported
+# Waves are ordered by tractability: pure parsers / encoders / validators first.
+
+wave1:  # the priority hunt repos (added 2026-10-28)
+  - slug: rclone-rclone
+    repo: rclone/rclone
+    lang: go
+    framework: rapid
+    surfaces: [fspath parsing, size/count suffix round-trips, crypt name encryption, filter globs, chunker metadata]
+    status: building
+  - slug: cli-cli
+    repo: cli/cli
+    lang: go
+    framework: rapid
+    surfaces: [config parsing, jq filter handling, repo name parsing, markdown/URL handling]
+    status: queued
+  - slug: spiffe-spire
+    repo: spiffe/spire
+    lang: go
+    framework: rapid
+    surfaces: [SPIFFE ID parsing and validation (spec-defined), SVID/JWT parsing, selector parsing]
+    status: queued
+  - slug: woodpecker-ci-woodpecker
+    repo: woodpecker-ci/woodpecker
+    lang: go
+    framework: rapid
+    surfaces: [pipeline YAML parsing, env substitution, path matching]
+    status: queued
+
+wave2:  # repos Navid already has PRs / maintainer relationships in
+  - slug: cortexproject-cortex
+    repo: cortexproject/cortex
+    lang: go
+    framework: rapid
+    surfaces: [label and sample validation, limits parsing, query-frontend request splitting]
+    status: queued
+  - slug: grafana-loki
+    repo: grafana/loki
+    lang: go
+    framework: rapid
+    surfaces: [LogQL parsing round-trips, label parsing, JSON/YAML log line parsing]
+    status: queued
+  - slug: kubernetes-sigs-external-dns
+    repo: kubernetes-sigs/external-dns
+    lang: go
+    framework: rapid
+    surfaces: [DNS name validation, TXT registry encode/decode round-trips, endpoint parsing]
+    status: queued
+  - slug: prometheus-blackbox-exporter
+    repo: prometheus/blackbox_exporter
+    lang: go
+    framework: rapid
+    surfaces: [config parsing, prober target URL templating, query parameter handling]
+    status: queued
+  - slug: external-secrets-external-secrets
+    repo: external-secrets/external-secrets
+    lang: go
+    framework: rapid
+    surfaces: [template data parsing, provider config decoding]
+    status: queued
+  - slug: hashicorp-vault
+    repo: hashicorp/vault
+    lang: go
+    framework: rapid
+    surfaces: [ACL policy parsing (HCL), path matching, token/policy name validation]
+    status: queued
+  - slug: sun-wukhan-terraformer
+    repo: Sun-Wukhan/terraformer
+    lang: go
+    framework: rapid
+    surfaces: [HCL generation escaping, resource ID parsing, name sanitisation round-trips]
+    status: queued
+
+wave3:  # Python ecosystem, paper-faithful (Hypothesis), chosen per target when scheduled
+  - slug: python-ecosystem
+    repo: "(per-package, following Maaz et al.'s 100-package method)"
+    lang: python
+    framework: hypothesis
+    surfaces: [serialization round-trips, parsers, numeric edge cases]
+    status: queued
+
+excluded:
+  - repo: openbao/openbao
+    reason: "Project policy bans AI-generated contributions (Navid, 2026-10-21: skip entirely)."
+  - repo: SeleniumHQ/selenium
+    reason: "No autonomous-agent PRs per CONTRIBUTING.md; human-in-the-loop only."

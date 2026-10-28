@@ -1,0 +1,6 @@
+=== RUN   TestPBTFilterAddNeverPanics
+    pbt_filter_test.go:61: [rapid] fail file "testdata/rapid/TestPBTFilterAddNeverPanics/TestPBTFilterAddNeverPanics-20261028222831-54554.fail" is no longer valid
+    pbt_filter_test.go:61: [rapid] OK, passed 100 tests (16.249454ms)
+--- PASS: TestPBTFilterAddNeverPanics (0.02s)
+PASS
+ok  	github.com/rclone/rclone/fs/filter	0.100s

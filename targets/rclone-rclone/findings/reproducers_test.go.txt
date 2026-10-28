@@ -1,0 +1,46 @@
+package fs
+
+import "testing"
+
+// Plain-Go reproducers for the PBT counterexamples (triage artifacts).
+func TestReproCounterexamples(t *testing.T) {
+	var ss SizeSuffix
+	if err := ss.Set("NaNK"); err != nil {
+		t.Logf("SizeSuffix.Set(NaNK) err=%v", err)
+	} else {
+		t.Logf("SizeSuffix.Set(NaNK) accepted, value=%d (String()=%q)", int64(ss), ss.String())
+	}
+	var cs CountSuffix
+	if err := cs.Set("NaNK"); err != nil {
+		t.Logf("CountSuffix.Set(NaNK) err=%v", err)
+	} else {
+		t.Logf("CountSuffix.Set(NaNK) accepted, value=%d (String()=%q)", int64(cs), cs.String())
+	}
+	for _, s := range []string{"infK", "1e18", "1e19", "9223372036854775807"} {
+		var c2 CountSuffix
+		if err := c2.Set(s); err != nil {
+			t.Logf("CountSuffix.Set(%q) err=%v", s, err)
+		} else {
+			t.Logf("CountSuffix.Set(%q) accepted, value=%d", s, int64(c2))
+		}
+		var s2 SizeSuffix
+		t.Logf("SizeSuffix.Set(%q) err=%v (comparison)", s, s2.Set(s))
+	}
+	// round trip: minimal failing value found by ordered scan is 1046
+	var y SizeSuffix
+	_ = y.Set(SizeSuffix(1046).String())
+	t.Logf("SizeSuffix 1046 -> String()=%q -> Set -> %d", SizeSuffix(1046).String(), int64(y))
+	// round trip at large scale via the internal stringRoundTrip
+	for _, v := range []SizeSuffix{1 << 60, (1 << 60) + 1, (1 << 60) + (1 << 40), 123456789012345678} {
+		var z SizeSuffix
+		err := z.Set(v.stringRoundTrip())
+		t.Logf("stringRoundTrip: %d -> %q -> %d (err=%v, delta=%d)", int64(v), v.stringRoundTrip(), int64(z), err, int64(z)-int64(v))
+	}
+	// smallest String() identity failures
+	var a SizeSuffix
+	_ = a.Set(SizeSuffix(1).String())
+	t.Logf("SizeSuffix 1 -> String()=%q -> %d", SizeSuffix(1).String(), int64(a))
+	var b CountSuffix
+	_ = b.Set(CountSuffix(1).String())
+	t.Logf("CountSuffix 1 -> String()=%q -> %d", CountSuffix(1).String(), int64(b))
+}

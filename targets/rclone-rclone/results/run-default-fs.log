@@ -1,0 +1,69 @@
+=== RUN   TestPBTSizeSuffixSetNeverPanics
+    pbt_fs_test.go:39: [rapid] OK, passed 100 tests (1.763144ms)
+--- PASS: TestPBTSizeSuffixSetNeverPanics (0.00s)
+=== RUN   TestPBTCountSuffixSetNeverPanics
+    pbt_fs_test.go:52: [rapid] OK, passed 100 tests (349.184µs)
+--- PASS: TestPBTCountSuffixSetNeverPanics (0.00s)
+=== RUN   TestPBTSizeSuffixSetAcceptedValuesSane
+    pbt_fs_test.go:67: [rapid] failed after 2 tests: Set("NaNK") accepted but produced -9223372036854775808
+        To reproduce, specify -run="TestPBTSizeSuffixSetAcceptedValuesSane" -rapid.failfile="testdata/rapid/TestPBTSizeSuffixSetAcceptedValuesSane/TestPBTSizeSuffixSetAcceptedValuesSane-20261028222823-54256.fail" (or -rapid.seed=13500461657575014166)
+        Failed test output:
+    pbt_fs_test.go:27: [rapid] draw mantissa: "NaN"
+    pbt_fs_test.go:31: [rapid] draw suffix: "K"
+    pbt_fs_test.go:72: Set("NaNK") accepted but produced -9223372036854775808
+--- FAIL: TestPBTSizeSuffixSetAcceptedValuesSane (0.02s)
+=== RUN   TestPBTCountSuffixSetAcceptedValuesSane
+    pbt_fs_test.go:81: [rapid] failed after 0 tests: Set("NaNK") accepted but produced -9223372036854775808
+        To reproduce, specify -run="TestPBTCountSuffixSetAcceptedValuesSane" -rapid.failfile="testdata/rapid/TestPBTCountSuffixSetAcceptedValuesSane/TestPBTCountSuffixSetAcceptedValuesSane-20261028222823-54256.fail" (or -rapid.seed=8789814898576093970)
+        Failed test output:
+    pbt_fs_test.go:27: [rapid] draw mantissa: "NaN"
+    pbt_fs_test.go:31: [rapid] draw suffix: "K"
+    pbt_fs_test.go:86: Set("NaNK") accepted but produced -9223372036854775808
+--- FAIL: TestPBTCountSuffixSetAcceptedValuesSane (0.03s)
+=== RUN   TestPBTSizeSuffixRoundTripString
+    pbt_fs_test.go:97: [rapid] failed after 2 tests: round trip of 1046 via "1.021Ki" gave 1045
+        To reproduce, specify -run="TestPBTSizeSuffixRoundTripString" -rapid.failfile="testdata/rapid/TestPBTSizeSuffixRoundTripString/TestPBTSizeSuffixRoundTripString-20261028222824-54256.fail" (or -rapid.seed=1312788048015701452)
+        Failed test output:
+    pbt_fs_test.go:101: [rapid] draw v: 1046
+    pbt_fs_test.go:107: round trip of 1046 via "1.021Ki" gave 1045
+--- FAIL: TestPBTSizeSuffixRoundTripString (0.03s)
+=== RUN   TestPBTSizeSuffixStringSetIdentity
+    pbt_fs_test.go:117: [rapid] failed after 1 tests: String()->Set() of 1 via "1" gave 1024
+        To reproduce, specify -run="TestPBTSizeSuffixStringSetIdentity" -rapid.failfile="testdata/rapid/TestPBTSizeSuffixStringSetIdentity/TestPBTSizeSuffixStringSetIdentity-20261028222824-54256.fail" (or -rapid.seed=2198408919795418524)
+        Failed test output:
+    pbt_fs_test.go:118: [rapid] draw v: 1
+    pbt_fs_test.go:124: String()->Set() of 1 via "1" gave 1024
+--- FAIL: TestPBTSizeSuffixStringSetIdentity (0.00s)
+=== RUN   TestPBTCountSuffixStringSetIdentity
+    pbt_fs_test.go:132: [rapid] failed after 1 tests: String()->Set() of 1 via "1" gave 1000
+        To reproduce, specify -run="TestPBTCountSuffixStringSetIdentity" -rapid.failfile="testdata/rapid/TestPBTCountSuffixStringSetIdentity/TestPBTCountSuffixStringSetIdentity-20261028222824-54256.fail" (or -rapid.seed=6263091693821804096)
+        Failed test output:
+    pbt_fs_test.go:133: [rapid] draw v: 1
+    pbt_fs_test.go:139: String()->Set() of 1 via "1" gave 1000
+--- FAIL: TestPBTCountSuffixStringSetIdentity (0.01s)
+FAIL
+FAIL	github.com/rclone/rclone/fs	0.131s
+=== RUN   TestPBTParseNeverPanics
+    pbt_fspath_test.go:24: [rapid] OK, passed 100 tests (2.649224ms)
+--- PASS: TestPBTParseNeverPanics (0.00s)
+=== RUN   TestPBTParseRoundTrip
+    pbt_fspath_test.go:36: [rapid] OK, passed 100 tests (393.18µs)
+--- PASS: TestPBTParseRoundTrip (0.00s)
+PASS
+ok  	github.com/rclone/rclone/fs/fspath	0.057s
+=== RUN   TestPBTGlobNeverPanics
+    pbt_filter_test.go:21: [rapid] OK, passed 100 tests (31.835974ms)
+--- PASS: TestPBTGlobNeverPanics (0.03s)
+=== RUN   TestPBTGlobLiteralSelfMatch
+    pbt_filter_test.go:36: [rapid] OK, passed 100 tests (6.452298ms)
+--- PASS: TestPBTGlobLiteralSelfMatch (0.01s)
+=== RUN   TestPBTFilterAddNeverPanics
+    pbt_filter_test.go:61: [rapid] failed after 0 tests: NewFilter: filter: --min-age "0s" can't be larger than --max-age "0s"
+        To reproduce, specify -run="TestPBTFilterAddNeverPanics" -rapid.failfile="testdata/rapid/TestPBTFilterAddNeverPanics/TestPBTFilterAddNeverPanics-20261028222831-54554.fail" (or -rapid.seed=6185669220607239727)
+        Failed test output:
+    pbt_filter_test.go:62: [rapid] draw glob: ""
+    pbt_filter_test.go:65: NewFilter: filter: --min-age "0s" can't be larger than --max-age "0s"
+--- FAIL: TestPBTFilterAddNeverPanics (0.01s)
+FAIL
+FAIL	github.com/rclone/rclone/fs/filter	0.183s
+FAIL

@@ -1,0 +1,21 @@
+=== RUN   TestReproCounterexamples
+    pbt_repro_test.go:11: SizeSuffix.Set(NaNK) accepted, value=-9223372036854775808 (String()="off")
+    pbt_repro_test.go:17: CountSuffix.Set(NaNK) accepted, value=-9223372036854775808 (String()="off")
+    pbt_repro_test.go:24: CountSuffix.Set("infK") accepted, value=-9223372036854775808
+    pbt_repro_test.go:27: SizeSuffix.Set("infK") err=value can't be greater than 9223372036854775807 (comparison)
+    pbt_repro_test.go:24: CountSuffix.Set("1e18") accepted, value=-9223372036854775808
+    pbt_repro_test.go:27: SizeSuffix.Set("1e18") err=value can't be greater than 9223372036854775807 (comparison)
+    pbt_repro_test.go:24: CountSuffix.Set("1e19") accepted, value=-9223372036854775808
+    pbt_repro_test.go:27: SizeSuffix.Set("1e19") err=value can't be greater than 9223372036854775807 (comparison)
+    pbt_repro_test.go:24: CountSuffix.Set("9223372036854775807") accepted, value=-9223372036854775808
+    pbt_repro_test.go:27: SizeSuffix.Set("9223372036854775807") err=value can't be greater than 9223372036854775807 (comparison)
+    pbt_repro_test.go:32: SizeSuffix 1046 -> String()="1.021Ki" -> Set -> 1045
+    pbt_repro_test.go:37: stringRoundTrip: 1152921504606846976 -> "1Ei" -> 1152921504606846976 (err=<nil>, delta=0)
+    pbt_repro_test.go:37: stringRoundTrip: 1152921504606846977 -> "1Ei" -> 1152921504606846976 (err=<nil>, delta=-1)
+    pbt_repro_test.go:37: stringRoundTrip: 1152922604118474752 -> "1.000Ei" -> 1152921504606846976 (err=<nil>, delta=-1099511627776)
+    pbt_repro_test.go:37: stringRoundTrip: 123456789012345678 -> "109.652Pi" -> 123457176585107408 (err=<nil>, delta=387572761730)
+    pbt_repro_test.go:42: SizeSuffix 1 -> String()="1" -> 1024
+    pbt_repro_test.go:45: CountSuffix 1 -> String()="1" -> 1000
+--- PASS: TestReproCounterexamples (0.00s)
+PASS
+ok  	github.com/rclone/rclone/fs	0.031s
