@@ -9,7 +9,7 @@ wave1:  # the priority hunt repos (added 2026-10-28)
     lang: go
     framework: rapid
     surfaces: [fspath parsing, size/count suffix round-trips, crypt name encryption, filter globs, chunker metadata]
-    status: building
+    status: pilot-complete (issue #10205 filed, fix PR #10206 open)
   - slug: cli-cli
     repo: cli/cli
     lang: go

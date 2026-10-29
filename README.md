@@ -47,7 +47,7 @@ live in `targets.yaml`.
 
 | Target | Properties | Runs | Counterexamples | Confirmed bugs | Reported | Fixed |
 |--------|-----------|------|-----------------|----------------|----------|-------|
-| rclone/rclone | 17 | 100 + 2,000 rapid checks | 5 property failures (3 findings) + 1 harness artifact | 2 (1 already claimed upstream, PR #10154) | 0 by us | 0 |
+| rclone/rclone | 17 | 100 + 2,000 rapid checks | 5 property failures (3 findings) + 1 harness artifact | 2 (1 already claimed upstream, PR #10154) | 1 by us (#10205) | fix PR open (#10206) |
 
 (Everything here is public on purpose: the tests we ran, the failures we
 found, and the ones we got wrong. If a maintainer wants to re-run anything,

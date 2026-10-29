@@ -9,7 +9,7 @@ Finding 004 records a sixth initial failure that was in our harness.
 | # | Finding | Properties | Verdict |
 |---|---------|------------|---------|
 | 001 | Suffix parsers silently accept NaN / overflowing values → `MinInt64` (`"--max-size NaNK"` ≡ off) | F3, F4 | Confirmed bug — **already claimed upstream** by PR #10154 (kevin9327). Related same-root-cause case in `fs/parseduration.go` claimed by PR #10199. Not reportable by us. |
-| 002 | `SizeSuffix.stringRoundTrip()` loses precision (`%.3f`): 1046 → 1045; up to ~0.3% (≈10^11–10^12 bytes) at large scales | F5 | Confirmed bug — **reportable, unclaimed**; fix in progress by the main agent. |
+| 002 | `SizeSuffix.stringRoundTrip()` loses precision (`%.3f`): 1046 → 1045; up to ~0.3% (≈10^11–10^12 bytes) at large scales | F5 | Confirmed bug — **reported by us as rclone#10205; fix PR #10206 open**. |
 | 003 | Naive `String()`→`Set()` identity fails at value 1 (bare numbers parse as Ki/kilo) | F6, F7 | Wrong property (display ≠ parse form, by design). F7's below-1k corruption family is also claimed by PR #9981 (n0liu) — not reportable by us. |
 | 004 | `Filter.Add` property's first failure was in our harness (`NewFilter(&Options{})`), not rclone | L3 | Wrong property / harness setup — fixed to `NewFilter(nil)`; property passes 2,000 checks. |
 
