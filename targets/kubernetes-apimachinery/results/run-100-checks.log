@@ -1,0 +1,80 @@
+=== RUN   TestPBTParseQuantityNeverPanics
+    pbt_resource_test.go:95: [rapid] OK, passed 100 tests (616.426µs)
+--- PASS: TestPBTParseQuantityNeverPanics (0.00s)
+=== RUN   TestPBTQuantityStringRoundTrip
+    pbt_resource_test.go:110: [rapid] OK, passed 100 tests (953.041µs)
+--- PASS: TestPBTQuantityStringRoundTrip (0.00s)
+=== RUN   TestPBTQuantityCanonicalizeRoundTrip
+    pbt_resource_test.go:130: [rapid] OK, passed 100 tests (972.139µs)
+--- PASS: TestPBTQuantityCanonicalizeRoundTrip (0.00s)
+=== RUN   TestPBTQuantityCmpAntisymmetricAndSign
+    pbt_resource_test.go:151: [rapid] OK, passed 100 tests (1.360533ms)
+--- PASS: TestPBTQuantityCmpAntisymmetricAndSign (0.00s)
+=== RUN   TestPBTQuantityCmpTransitive
+    pbt_resource_test.go:172: [rapid] OK, passed 100 tests (1.896206ms)
+--- PASS: TestPBTQuantityCmpTransitive (0.00s)
+=== RUN   TestPBTQuantityAddCommutative
+    pbt_resource_test.go:186: [rapid] OK, passed 100 tests (1.710137ms)
+--- PASS: TestPBTQuantityAddCommutative (0.00s)
+=== RUN   TestPBTQuantityAddSubInverse
+    pbt_resource_test.go:209: [rapid] OK, passed 100 tests (4.830282ms)
+--- PASS: TestPBTQuantityAddSubInverse (0.00s)
+=== RUN   TestPBTQuantityAddZeroSubSelf
+    pbt_resource_test.go:239: [rapid] OK, passed 100 tests (511.457µs)
+--- PASS: TestPBTQuantityAddZeroSubSelf (0.00s)
+=== RUN   TestPBTQuantityCmpVsSubSign
+    pbt_resource_test.go:258: [rapid] OK, passed 100 tests (877.417µs)
+--- PASS: TestPBTQuantityCmpVsSubSign (0.00s)
+=== RUN   TestPBTQuantityScaledValueExact
+    pbt_resource_test.go:282: [rapid] OK, passed 100 tests (110.966µs)
+--- PASS: TestPBTQuantityScaledValueExact (0.00s)
+=== RUN   TestPBTQuantityScaledValueRounding
+    pbt_resource_test.go:297: [rapid] OK, passed 100 tests (96.535µs)
+--- PASS: TestPBTQuantityScaledValueRounding (0.00s)
+=== RUN   TestPBTQuantityScaledValueSaturates
+    pbt_resource_test.go:321: [rapid] OK, passed 100 tests (158.438µs)
+--- PASS: TestPBTQuantityScaledValueSaturates (0.00s)
+=== RUN   TestPBTQuantityScaledValueMonotonic
+    pbt_resource_test.go:347: [rapid] OK, passed 100 tests (769.085µs)
+--- PASS: TestPBTQuantityScaledValueMonotonic (0.00s)
+PASS
+ok  	k8s.io/apimachinery/pkg/api/resource	0.023s
+=== RUN   TestPBTLabelsParseNeverPanics
+    pbt_labels_test.go:115: [rapid] OK, passed 100 tests (811.108µs)
+--- PASS: TestPBTLabelsParseNeverPanics (0.00s)
+=== RUN   TestPBTSelectorStringRoundTrip
+    pbt_labels_test.go:128: [rapid] OK, passed 100 tests (1.524419ms)
+--- PASS: TestPBTSelectorStringRoundTrip (0.00s)
+=== RUN   TestPBTSelectorMatchesModel
+    pbt_labels_test.go:153: [rapid] OK, passed 100 tests (860.332µs)
+--- PASS: TestPBTSelectorMatchesModel (0.00s)
+=== RUN   TestPBTSelectorFromSetMatches
+    pbt_labels_test.go:188: [rapid] OK, passed 100 tests (584.317µs)
+--- PASS: TestPBTSelectorFromSetMatches (0.00s)
+PASS
+ok  	k8s.io/apimachinery/pkg/labels	0.012s
+=== RUN   TestPBTIntstrScaledNeverPanics
+    pbt_intstr_test.go:33: [rapid] OK, passed 100 tests (411.768µs)
+--- PASS: TestPBTIntstrScaledNeverPanics (0.00s)
+=== RUN   TestPBTIntstrIntPassthrough
+    pbt_intstr_test.go:50: [rapid] OK, passed 100 tests (115.102µs)
+--- PASS: TestPBTIntstrIntPassthrough (0.00s)
+=== RUN   TestPBTIntstrPercentExact
+    pbt_intstr_test.go:73: [rapid] OK, passed 100 tests (145.578µs)
+--- PASS: TestPBTIntstrPercentExact (0.00s)
+=== RUN   TestPBTIntstrPercentBoundsAndMonotonic
+    pbt_intstr_test.go:97: [rapid] OK, passed 100 tests (188.193µs)
+--- PASS: TestPBTIntstrPercentBoundsAndMonotonic (0.00s)
+PASS
+ok  	k8s.io/apimachinery/pkg/util/intstr	0.008s
+=== RUN   TestPBTParseToLabelSelectorNeverPanics
+    pbt_metav1_test.go:85: [rapid] OK, passed 100 tests (965.7µs)
+--- PASS: TestPBTParseToLabelSelectorNeverPanics (0.00s)
+=== RUN   TestPBTParseToLabelSelectorAgreesWithLabels
+    pbt_metav1_test.go:100: [rapid] OK, passed 100 tests (1.404539ms)
+--- PASS: TestPBTParseToLabelSelectorAgreesWithLabels (0.00s)
+=== RUN   TestPBTLabelsParseConsistency
+    pbt_metav1_test.go:128: [rapid] OK, passed 100 tests (1.241103ms)
+--- PASS: TestPBTLabelsParseConsistency (0.00s)
+PASS
+ok  	k8s.io/apimachinery/pkg/apis/meta/v1	0.012s

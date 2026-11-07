@@ -1,0 +1,12 @@
+=== RUN   TestReproExponentWraparound
+    repro_exponent_test.go:33: ParseQuantity("1e4294967296") = "1e4294967296" (== "1"): silently wrapped exponent, want an error
+    repro_exponent_test.go:33: ParseQuantity("1e4294967297") = "10" (== "10"): silently wrapped exponent, want an error
+    repro_exponent_test.go:33: ParseQuantity("1e4294967295") = "100e-3" (== "100m"): silently wrapped exponent, want an error
+    repro_exponent_test.go:33: ParseQuantity("1e-4294967296") = "1e-4294967296" (== "1"): silently wrapped exponent, want an error
+    repro_exponent_test.go:33: ParseQuantity("2e8589934592") = "2e8589934592" (== "2"): silently wrapped exponent, want an error
+    repro_exponent_test.go:33: ParseQuantity("3e12884901890") = "300" (== "300"): silently wrapped exponent, want an error
+    repro_exponent_test.go:33: ParseQuantity("1.5e4294967297") = "1.5e4294967297" (== "15"): silently wrapped exponent, want an error
+--- FAIL: TestReproExponentWraparound (0.00s)
+FAIL
+FAIL	pbtlab/quantity	0.004s
+FAIL

@@ -1,0 +1,96 @@
+// Plain-Go reproducers for the kubernetes-apimachinery findings
+// (no rapid required). Drop into a package directory of an
+// apimachinery checkout at b26d01364f13520dfdecb540fc63253be5b76662,
+// rename to *_test.go, and run `go test -run TestReproFinding -v`.
+// (The four tests share one file here for the lab record; they import
+// four different packages, so split per package when running.)
+package repro
+
+import (
+	"testing"
+
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/api/resource"
+	"k8s.io/apimachinery/pkg/labels"
+	"k8s.io/apimachinery/pkg/util/intstr"
+)
+
+// Finding 001 — intstr.FromInt truncates values outside the documented
+// int32 domain (it logs an error via klog and stores int32(val)).
+// Documented caller responsibility, so a harness-domain note, not a bug.
+func TestReproFinding001(t *testing.T) {
+	v := intstr.FromInt(2147483648) // 2^31, one past MaxInt32
+	if got := v.IntValue(); got != -2147483648 {
+		t.Fatalf("expected truncation to -2147483648, got %d", got)
+	}
+}
+
+// Finding 002 — the labels parser validates requirement values as label
+// values, so negative Gt/Lt bounds and values like "-2" are rejected at
+// parse time. Generators must stay inside the validated grammar.
+func TestReproFinding002(t *testing.T) {
+	if _, err := labels.Parse("app > -1"); err == nil {
+		t.Fatal("expected parse error for negative Gt bound")
+	}
+	if _, err := labels.Parse("app=-2"); err == nil {
+		t.Fatal("expected parse error for label value -2")
+	}
+}
+
+// Finding 003 — Add/Sub round the finer-scale operand away from zero
+// when the operands' Dec scales are more than maxScaleGap (29) apart
+// (documented in pkg/api/resource/amount.go). Exactness of (a+b)-b is
+// therefore not a contract across that boundary.
+func TestReproFinding003(t *testing.T) {
+	a := resource.MustParse("9223372036854775807") // Dec scale 0
+	b := resource.MustParse("1e30")                // Dec scale -30; gap 30 > 29
+
+	sum := a
+	sum.Add(b)
+	// Exact sum would end ...0009223372036854775807; a is first rounded
+	// at the 10^1 place (away from zero): ...807 -> ...810.
+	if got, want := sum.String(), "1000000000009223372036854775810"; got != want {
+		t.Fatalf("a+b = %q, want %q", got, want)
+	}
+	back := sum
+	back.Sub(b)
+	if back.Cmp(a) == 0 {
+		t.Fatal("(a+b)-b unexpectedly equals a")
+	}
+	// Control: a scale gap of exactly 29 does not engage the rounding.
+	c := resource.MustParse("1e29")
+	sum2 := a
+	sum2.Add(c)
+	back2 := sum2
+	back2.Sub(c)
+	if back2.Cmp(a) != 0 {
+		t.Fatalf("gap-29 control failed: (a+1e29)-1e29 = %q", back2.String())
+	}
+}
+
+// Finding 004 — metav1.ParseToLabelSelector silently overwrites a
+// conflicting equality for a key already present in MatchLabels, so a
+// contradictory selector like "tier=db,tier=web" (matches nothing)
+// converts into "tier=web" (matches tier=web). Confirmed bug; this
+// reproducer pins the exact behaviour.
+func TestReproFinding004(t *testing.T) {
+	ls, err := metav1.ParseToLabelSelector("tier=db,tier=web")
+	if err != nil {
+		t.Fatalf("ParseToLabelSelector: %v", err)
+	}
+	converted, err := metav1.LabelSelectorAsSelector(ls)
+	if err != nil {
+		t.Fatalf("LabelSelectorAsSelector: %v", err)
+	}
+	direct, err := labels.Parse("tier=db,tier=web")
+	if err != nil {
+		t.Fatalf("labels.Parse: %v", err)
+	}
+	set := labels.Set{"tier": "web"}
+	if direct.Matches(set) {
+		t.Fatal("direct selector unexpectedly matches: it is a contradiction")
+	}
+	if !converted.Matches(set) {
+		t.Fatal("converted selector unexpectedly does not match tier=web; the dropped-equality behaviour changed")
+	}
+}

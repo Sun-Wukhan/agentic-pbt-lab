@@ -1,0 +1,477 @@
+.F...............FFFFFFFF.......................................F        [100%]
+=================================== FAILURES ===================================
+______________________ test_h2_len_matches_distinct_keys _______________________
+
+    @given(pairs=HEADER_PAIR_LISTS)
+>   def test_h2_len_matches_distinct_keys(pairs):
+                   ^^^
+
+harness/test_pbt_headers.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+pairs = [('x-custom-header', ''), ('x-custom-header', '')]
+
+    @given(pairs=HEADER_PAIR_LISTS)
+    def test_h2_len_matches_distinct_keys(pairs):
+        h = Headers(pairs)
+>       assert len(h) == len(distinct_keys(pairs))
+E       AssertionError: assert 2 == 1
+E        +  where 2 = len(Headers([('x-custom-header', ''), ('x-custom-header', '')]))
+E        +  and   1 = len({'x-custom-header'})
+E        +    where {'x-custom-header'} = distinct_keys([('x-custom-header', ''), ('x-custom-header', '')])
+E       Failing test case: test_h2_len_matches_distinct_keys(
+E           pairs=[('x-custom-header', ''), (
+E                'x-custom-header',
+E                '',  # or any other generated value
+E            )],
+E       )
+
+harness/test_pbt_headers.py:43: AssertionError
+_________________________ test_u1_parse_print_fixpoint _________________________
+
+    @given(c=url_components())
+>   def test_u1_parse_print_fixpoint(c):
+                   ^^^
+
+harness/test_pbt_urls.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+c = {'scheme': 'HTTP', 'host': '0', 'port': 80, 'userinfo': None, ...}
+
+    @given(c=url_components())
+    def test_u1_parse_print_fixpoint(c):
+        try:
+            u = _build(c)
+        except httpx.InvalidURL:
+            return
+>       assert str(URL(str(u))) == str(u)
+E       AssertionError: assert 'http://0/?' == 'http://0:80/?'
+E         
+E         - http://0:80/?
+E         ?         ---
+E         + http://0/?
+E       Failing test case: test_u1_parse_print_fixpoint(
+E           c={'scheme': 'HTTP',
+E            'host': '0',
+E            'port': 80,
+E            'userinfo': None,
+E            'path_segments': [],
+E            'trailing_slash': False,
+E            'query_pairs': [],
+E            'query_absent': False,
+E            'fragment': None},
+E       )
+
+harness/test_pbt_urls.py:37: AssertionError
+__________________ test_u2_mutation_idempotence_and_no_crash ___________________
+  + Exception Group Traceback (most recent call last):
+  |   File "/home/hatch/workspace/pbt-lab/targets/encode-httpx/harness/test_pbt_urls.py", line 42, in test_u2_mutation_idempotence_and_no_crash
+  |     def test_u2_mutation_idempotence_and_no_crash(s):
+  |                    ^^^
+  | ExceptionGroup: Hypothesis found 3 distinct failures. (3 sub-exceptions)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/hatch/workspace/.venv-pbt/lib/python3.12/site-packages/httpx/_urlparse.py", line 374, in encode_host
+    |     ipaddress.IPv6Address(host[1:-1])
+    |   File "/usr/lib/python3.12/ipaddress.py", line 1958, in __init__
+    |     self._ip = self._ip_int_from_string(addr_str)
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/usr/lib/python3.12/ipaddress.py", line 1666, in _ip_int_from_string
+    |     raise AddressValueError('Address cannot be empty')
+    | ipaddress.AddressValueError: Address cannot be empty
+    | 
+    | During handling of the above exception, another exception occurred:
+    | 
+    | Traceback (most recent call last):
+    |   File "/home/hatch/workspace/pbt-lab/targets/encode-httpx/harness/test_pbt_urls.py", line 48, in test_u2_mutation_idempotence_and_no_crash
+    |     assert str(URL(str(u))) == str(u)
+    |                ^^^^^^^^^^^
+    |   File "/home/hatch/workspace/.venv-pbt/lib/python3.12/site-packages/httpx/_urls.py", line 117, in __init__
+    |     self._uri_reference = urlparse(url, **kwargs)
+    |                           ^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/home/hatch/workspace/.venv-pbt/lib/python3.12/site-packages/httpx/_urlparse.py", line 320, in urlparse
+    |     parsed_host: str = encode_host(host)
+    |                        ^^^^^^^^^^^^^^^^^
+    |   File "/home/hatch/workspace/.venv-pbt/lib/python3.12/site-packages/httpx/_urlparse.py", line 376, in encode_host
+    |     raise InvalidURL(f"Invalid IPv6 address: {host!r}")
+    | httpx.InvalidURL: Invalid IPv6 address: '[%::1]'
+    | Failing test case: test_u2_mutation_idempotence_and_no_crash(
+    |     s=':ttp://[%::1]/?',
+    | )
+    +---------------- 2 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/hatch/workspace/.venv-pbt/lib/python3.12/site-packages/httpx/_urlparse.py", line 409, in normalize_port
+    |     port_as_int = int(port)
+    |                   ^^^^^^^^^
+    | ValueError: invalid literal for int() with base 10: ':1]'
+    | 
+    | During handling of the above exception, another exception occurred:
+    | 
+    | Traceback (most recent call last):
+    |   File "/home/hatch/workspace/pbt-lab/targets/encode-httpx/harness/test_pbt_urls.py", line 48, in test_u2_mutation_idempotence_and_no_crash
+    |     assert str(URL(str(u))) == str(u)
+    |                ^^^^^^^^^^^
+    |   File "/home/hatch/workspace/.venv-pbt/lib/python3.12/site-packages/httpx/_urls.py", line 117, in __init__
+    |     self._uri_reference = urlparse(url, **kwargs)
+    |                           ^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/home/hatch/workspace/.venv-pbt/lib/python3.12/site-packages/httpx/_urlparse.py", line 321, in urlparse
+    |     parsed_port: int | None = normalize_port(port, scheme)
+    |                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/home/hatch/workspace/.venv-pbt/lib/python3.12/site-packages/httpx/_urlparse.py", line 411, in normalize_port
+    |     raise InvalidURL(f"Invalid port: {port!r}")
+    | httpx.InvalidURL: Invalid port: ':1]'
+    | Failing test case: test_u2_mutation_idempotence_and_no_crash(
+    |     s=':ttp://%[::1]/?',
+    | )
+    +---------------- 3 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/hatch/workspace/pbt-lab/targets/encode-httpx/harness/test_pbt_urls.py", line 48, in test_u2_mutation_idempotence_and_no_crash
+    |     assert str(URL(str(u))) == str(u)
+    | AssertionError: assert 'http://%5b?::1]/?' == 'http://%5B?::1]/?'
+    |   
+    |   - http://%5B?::1]/?
+    |   ?          ^
+    |   + http://%5b?::1]/?
+    |   ?          ^
+    | Failing test case: test_u2_mutation_idempotence_and_no_crash(
+    |     s='http://[?::1]/?',
+    | )
+    +------------------------------------
+_________________ test_u3_case_and_default_port_normalization __________________
+
+    @given(
+>       scheme=st.sampled_from(["http", "https", "ws", "wss", "ftp"]),
+                   ^^^
+        host=st.lists(ASCII_LABEL, min_size=1, max_size=2).map(".".join),
+        use_default_port=st.booleans(),
+        upper=st.booleans(),
+    )
+
+harness/test_pbt_urls.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+scheme = 'http', host = '0', use_default_port = True, upper = True
+
+    @given(
+        scheme=st.sampled_from(["http", "https", "ws", "wss", "ftp"]),
+        host=st.lists(ASCII_LABEL, min_size=1, max_size=2).map(".".join),
+        use_default_port=st.booleans(),
+        upper=st.booleans(),
+    )
+    def test_u3_case_and_default_port_normalization(scheme, host, use_default_port, upper):
+        port = DEFAULT_PORTS[scheme] if use_default_port else None
+        shown_scheme = scheme.upper() if upper else scheme
+        shown_host = host.upper() if upper else host
+        with_port = (
+            f"{shown_scheme}://{shown_host}:{port}/a" if port else f"{shown_scheme}://{shown_host}/a"
+        )
+        without_port = f"{scheme}://{host}/a"
+        u = URL(with_port)
+        assert u.scheme == scheme
+        assert u.host == host
+>       assert u.port is None
+E       AssertionError: assert 80 is None
+E        +  where 80 = URL('http://0:80/a').port
+E       Failing test case: test_u3_case_and_default_port_normalization(
+E           # The test always failed when commented parts were varied together.
+E           scheme='http',  # or any other generated value
+E           host='0',  # or any other generated value
+E           use_default_port=True,
+E           upper=True,
+E       )
+E       Explanation:
+E           These lines were always and only run by failing test cases:
+E               /home/hatch/workspace/.venv-pbt/lib/python3.12/site-packages/httpx/_urlparse.py:419
+E               /home/hatch/workspace/.venv-pbt/lib/python3.12/site-packages/httpx/_urls.py:394
+
+harness/test_pbt_urls.py:73: AssertionError
+_____________________ test_u4_idna_host_any_label_position _____________________
+
+    @given(
+>       labels=st.lists(
+                   ^^^
+            st.one_of(UNICODE_HOST_LABEL, ASCII_LABEL), min_size=2, max_size=3
+        )
+    )
+
+harness/test_pbt_urls.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+labels = ['0', 'ß']
+
+    @given(
+        labels=st.lists(
+            st.one_of(UNICODE_HOST_LABEL, ASCII_LABEL), min_size=2, max_size=3
+        )
+    )
+    def test_u4_idna_host_any_label_position(labels):
+        assume(any(any(ord(ch) > 127 for ch in label) for label in labels))
+        unicode_host = ".".join(labels)
+        import idna
+    
+        puny_host = idna.encode(unicode_host).decode("ascii")
+        for spelling in (unicode_host, puny_host):
+            u = URL(f"http://{spelling}/")
+>           assert u.host == unicode_host
+E           AssertionError: assert '0.xn--zca' == '0.ß'
+E             
+E             - 0.ß
+E             + 0.xn--zca
+E           Failing test case: test_u4_idna_host_any_label_position(
+E               labels=['0', 'ß'],
+E           )
+
+harness/test_pbt_urls.py:98: AssertionError
+_________________ test_u5_host_access_never_leaks_idna_errors __________________
+  + Exception Group Traceback (most recent call last):
+  |   File "/home/hatch/workspace/pbt-lab/targets/encode-httpx/harness/test_pbt_urls.py", line 104, in test_u5_host_access_never_leaks_idna_errors
+  |     labels=st.lists(st.one_of(ASCII_LABEL, PUNY_LABEL), min_size=1, max_size=3)
+  |                ^^^
+  | ExceptionGroup: Hypothesis found 2 distinct failures. (2 sub-exceptions)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/hatch/workspace/pbt-lab/targets/encode-httpx/harness/test_pbt_urls.py", line 113, in test_u5_host_access_never_leaks_idna_errors
+    |     value = u.host
+    |             ^^^^^^
+    |   File "/home/hatch/workspace/.venv-pbt/lib/python3.12/site-packages/httpx/_urls.py", line 191, in host
+    |     host = idna.decode(host)
+    |            ^^^^^^^^^^^^^^^^^
+    |   File "/home/hatch/workspace/.venv-pbt/lib/python3.12/site-packages/idna/core.py", line 851, in decode
+    |     u = ulabel(label)
+    |         ^^^^^^^^^^^^^
+    |   File "/home/hatch/workspace/.venv-pbt/lib/python3.12/site-packages/idna/core.py", line 607, in ulabel
+    |     check_label(label)
+    |   File "/home/hatch/workspace/.venv-pbt/lib/python3.12/site-packages/idna/core.py", line 513, in check_label
+    |     raise InvalidCodepoint(
+    | idna.core.InvalidCodepoint: Codepoint U+0080 at position 1 of '\x80' not allowed
+    | Failing test case: test_u5_host_access_never_leaks_idna_errors(
+    |     labels=['xn--a'],
+    | )
+    | Explanation:
+    |     These lines were always and only run by failing test cases:
+    |         /home/hatch/workspace/.venv-pbt/lib/python3.12/site-packages/idna/intranges.py:55
+    +---------------- 2 ----------------
+    | Traceback (most recent call last):
+    |   File "/usr/lib/python3.12/encodings/punycode.py", line 134, in decode_generalized_number
+    |     char = ord(extended[extpos])
+    |                ~~~~~~~~^^^^^^^^
+    | IndexError: string index out of range
+    | 
+    | During handling of the above exception, another exception occurred:
+    | 
+    | Traceback (most recent call last):
+    |   File "/home/hatch/workspace/.venv-pbt/lib/python3.12/site-packages/idna/core.py", line 597, in ulabel
+    |     label = label_bytes.decode("punycode")
+    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/usr/lib/python3.12/encodings/punycode.py", line 207, in decode
+    |     res = punycode_decode(input, errors)
+    |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/usr/lib/python3.12/encodings/punycode.py", line 194, in punycode_decode
+    |     return insertion_sort(base, extended, errors)
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/usr/lib/python3.12/encodings/punycode.py", line 164, in insertion_sort
+    |     newpos, delta = decode_generalized_number(extended, extpos,
+    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/usr/lib/python3.12/encodings/punycode.py", line 137, in decode_generalized_number
+    |     raise UnicodeError("incomplete punicode string")
+    | UnicodeError: incomplete punicode string
+    | decoding with 'punycode' codec failed
+    | 
+    | The above exception was the direct cause of the following exception:
+    | 
+    | Traceback (most recent call last):
+    |   File "/home/hatch/workspace/pbt-lab/targets/encode-httpx/harness/test_pbt_urls.py", line 113, in test_u5_host_access_never_leaks_idna_errors
+    |     value = u.host
+    |             ^^^^^^
+    |   File "/home/hatch/workspace/.venv-pbt/lib/python3.12/site-packages/httpx/_urls.py", line 191, in host
+    |     host = idna.decode(host)
+    |            ^^^^^^^^^^^^^^^^^
+    |   File "/home/hatch/workspace/.venv-pbt/lib/python3.12/site-packages/idna/core.py", line 851, in decode
+    |     u = ulabel(label)
+    |         ^^^^^^^^^^^^^
+    |   File "/home/hatch/workspace/.venv-pbt/lib/python3.12/site-packages/idna/core.py", line 599, in ulabel
+    |     raise IDNAError("Invalid A-label", code="invalid_alabel") from err
+    | idna.core.IDNAError: Invalid A-label
+    | Failing test case: test_u5_host_access_never_leaks_idna_errors(
+    |     labels=['xn--0'],
+    | )
+    +------------------------------------
+______________________ test_u6_dot_segments_match_rfc3986 ______________________
+
+    @given(segments=st.lists(DOT_SEGMENTS, min_size=0, max_size=5))
+>   def test_u6_dot_segments_match_rfc3986(segments):
+                   ^^^
+
+harness/test_pbt_urls.py:161: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+segments = ['.']
+
+    @given(segments=st.lists(DOT_SEGMENTS, min_size=0, max_size=5))
+    def test_u6_dot_segments_match_rfc3986(segments):
+        path = "/" + "/".join(segments)
+        u = URL(f"http://e.org{path}")
+>       assert u._uri_reference.path == remove_dot_segments(path)
+E       AssertionError: assert '' == '/'
+E         
+E         - /
+E       Failing test case: test_u6_dot_segments_match_rfc3986(
+E           segments=['.'],
+E       )
+E       Explanation:
+E           These lines were always and only run by failing test cases:
+E               /home/hatch/workspace/pbt-lab/targets/encode-httpx/harness/test_pbt_urls.py:137
+E               /home/hatch/workspace/.venv-pbt/lib/python3.12/site-packages/httpx/_urlparse.py:469
+
+harness/test_pbt_urls.py:164: AssertionError
+_____________________ test_u7_copy_with_component_fidelity _____________________
+
+    @given(c=url_components())
+>   def test_u7_copy_with_component_fidelity(c):
+                   ^^^
+
+harness/test_pbt_urls.py:173: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+c = {'scheme': 'Https', 'host': '127.0.0.1', 'port': 443, 'userinfo': None, ...}
+
+    @given(c=url_components())
+    def test_u7_copy_with_component_fidelity(c):
+        try:
+            u = _build(c)
+        except httpx.InvalidURL:
+            return
+        assume(u.is_absolute_url)
+        assert u.copy_with() == u
+    
+        changed = u.copy_with(path="/other")
+        assert changed._uri_reference.path == "/other"
+        for field in ("scheme", "userinfo", "host", "port", "query", "fragment"):
+>           assert getattr(changed._uri_reference, field) == getattr(
+                u._uri_reference, field
+            )
+E           AssertionError: assert None == 443
+E            +  where None = getattr(ParseResult(scheme='https', userinfo='', host='127.0.0.1', port=None, path='/other', query='', fragment=None), 'port')
+E            +    where ParseResult(scheme='https', userinfo='', host='127.0.0.1', port=None, path='/other', query='', fragment=None) = URL('https://127.0.0.1/other?')._uri_reference
+E            +  and   443 = getattr(ParseResult(scheme='https', userinfo='', host='127.0.0.1', port=443, path='/', query='', fragment=None), 'port')
+E            +    where ParseResult(scheme='https', userinfo='', host='127.0.0.1', port=443, path='/', query='', fragment=None) = URL('https://127.0.0.1:443/?')._uri_reference
+E           Failing test case: test_u7_copy_with_component_fidelity(
+E               c={'scheme': 'Https',
+E                'host': '127.0.0.1',
+E                'port': 443,
+E                'userinfo': None,
+E                'path_segments': [],
+E                'trailing_slash': False,
+E                'query_pairs': [],
+E                'query_absent': False,
+E                'fragment': None},
+E           )
+E           Explanation:
+E               These lines were always and only run by failing test cases:
+E                   /home/hatch/workspace/pbt-lab/targets/encode-httpx/harness/test_pbt_urls.py:186
+
+harness/test_pbt_urls.py:184: AssertionError
+___________________________ test_u8_join_metamorphic ___________________________
+  + Exception Group Traceback (most recent call last):
+  |   File "/home/hatch/workspace/pbt-lab/targets/encode-httpx/harness/test_pbt_urls.py", line 206, in test_u8_join_metamorphic
+  |     def test_u8_join_metamorphic(c, frag):
+  |                    ^^^
+  | ExceptionGroup: Hypothesis found 2 distinct failures. (2 sub-exceptions)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/hatch/workspace/pbt-lab/targets/encode-httpx/harness/test_pbt_urls.py", line 221, in test_u8_join_metamorphic
+    |     assert base.join("") == base.copy_with(fragment=None)
+    | AssertionError: assert URL('http://0/?#a') == URL('http://0/?')
+    |  +  where URL('http://0/?#a') = join('')
+    |  +    where join = URL('http://0/?#a').join
+    |  +  and   URL('http://0/?') = copy_with(fragment=None)
+    |  +    where copy_with = URL('http://0/?#a').copy_with
+    | Failing test case: test_u8_join_metamorphic(
+    |     c={'scheme': 'http',
+    |      'host': '0',
+    |      'port': None,
+    |      'userinfo': None,
+    |      'path_segments': [],
+    |      'trailing_slash': False,
+    |      'query_pairs': [],
+    |      'query_absent': False,
+    |      'fragment': 'a'},
+    |     frag='a',  # or any other generated value
+    | )
+    | Explanation:
+    |     These lines were always and only run by failing test cases:
+    |         /home/hatch/workspace/pbt-lab/targets/encode-httpx/harness/pbt_strategies.py:130
+    +---------------- 2 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/hatch/workspace/pbt-lab/targets/encode-httpx/harness/test_pbt_urls.py", line 230, in test_u8_join_metamorphic
+    |     joined = joined.copy_with(query="")
+    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/home/hatch/workspace/.venv-pbt/lib/python3.12/site-packages/httpx/_urls.py", line 340, in copy_with
+    |     return URL(self, **kwargs)
+    |            ^^^^^^^^^^^^^^^^^^^
+    |   File "/home/hatch/workspace/.venv-pbt/lib/python3.12/site-packages/httpx/_urls.py", line 103, in __init__
+    |     raise TypeError(message)
+    | TypeError: Argument 'query' must be bytes but got str
+    | Failing test case: test_u8_join_metamorphic(
+    |     c={'scheme': 'http',
+    |      'host': '127.0.0.1',
+    |      'port': None,
+    |      'userinfo': None,
+    |      'path_segments': [],
+    |      'trailing_slash': False,
+    |      'query_pairs': [],
+    |      'query_absent': False,
+    |      'fragment': None},
+    |     frag='a',  # or any other generated value
+    | )
+    | Explanation:
+    |     These lines were always and only run by failing test cases:
+    |         /home/hatch/workspace/pbt-lab/targets/encode-httpx/harness/test_pbt_urls.py:229
+    |         /home/hatch/workspace/.venv-pbt/lib/python3.12/site-packages/httpx/_urls.py:100
+    +------------------------------------
+____________________ test_u11_equality_and_hash_consistency ____________________
+
+    @given(c=url_components())
+>   def test_u11_equality_and_hash_consistency(c):
+                   ^^^
+
+harness/test_pbt_urls.py:342: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+c = {'scheme': 'HTTP', 'host': '127.0.0.1', 'port': 80, 'userinfo': None, ...}
+
+    @given(c=url_components())
+    def test_u11_equality_and_hash_consistency(c):
+        try:
+            u = _build(c)
+        except httpx.InvalidURL:
+            return
+>       assert u == str(u)
+E       AssertionError: assert URL('http://127.0.0.1:80/?') == 'http://127.0.0.1:80/?'
+E        +  where 'http://127.0.0.1:80/?' = str(URL('http://127.0.0.1:80/?'))
+E       Failing test case: test_u11_equality_and_hash_consistency(
+E           c={'scheme': 'HTTP',
+E            'host': '127.0.0.1',
+E            'port': 80,
+E            'userinfo': None,
+E            'path_segments': [],
+E            'trailing_slash': False,
+E            'query_pairs': [],
+E            'query_absent': False,
+E            'fragment': None},
+E       )
+
+harness/test_pbt_urls.py:347: AssertionError
+=========================== short test summary info ============================
+FAILED harness/test_pbt_headers.py::test_h2_len_matches_distinct_keys - Asser...
+FAILED harness/test_pbt_urls.py::test_u1_parse_print_fixpoint - AssertionErro...
+FAILED harness/test_pbt_urls.py::test_u2_mutation_idempotence_and_no_crash - ...
+FAILED harness/test_pbt_urls.py::test_u3_case_and_default_port_normalization
+FAILED harness/test_pbt_urls.py::test_u4_idna_host_any_label_position - Asser...
+FAILED harness/test_pbt_urls.py::test_u5_host_access_never_leaks_idna_errors
+FAILED harness/test_pbt_urls.py::test_u6_dot_segments_match_rfc3986 - Asserti...
+FAILED harness/test_pbt_urls.py::test_u7_copy_with_component_fidelity - Asser...
+FAILED harness/test_pbt_urls.py::test_u8_join_metamorphic - ExceptionGroup: H...
+FAILED harness/test_pbt_urls.py::test_u11_equality_and_hash_consistency - Ass...
+10 failed, 55 passed in 49.45s
+exit=1

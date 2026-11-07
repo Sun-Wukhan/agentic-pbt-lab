@@ -1,0 +1,19 @@
+packaging under test: 26.4.dev0
+
+--- Finding 001: Requirement parser vs === specifiers ---
+  parsed              'x===0,>=0' -> specifier='===0,>=0'
+  InvalidRequirement  'x===0,>= 0': Expected comma (within version specifier), semicolon (after version specifier) or end
+  InvalidRequirement  'x===0, >=0': Expected comma (within version specifier), semicolon (after version specifier) or end
+  InvalidRequirement  'x===0,!= 1.0': Expected comma (within version specifier), semicolon (after version specifier) or end
+  InvalidRequirement  'x===0,< 2': Expected comma (within version specifier), semicolon (after version specifier) or end
+  InvalidRequirement  'x (===0,>= 0)': Expected matching RIGHT_PARENTHESIS for LEFT_PARENTHESIS, after version specifier
+  InvalidRequirement  "x===0,>= 0; python_version>'3'": Expected comma (within version specifier), semicolon (after version specifier) or end
+  parsed              'x==0,>= 0' -> specifier='==0,>=0'
+  parsed              'x>=0,===0' -> specifier='===0,>=0'
+  SpecifierSet('===0,>= 0') -> ===0,>=0
+
+--- Finding 002: bool parts pass the from_parts validators ---
+  from_parts(epoch=True, release=(1,)): epoch=True str='True!1'
+  reparse: InvalidVersion (Invalid version: 'True!1')
+  from_parts(release=(True, 2)): str='True.2' == Version('1.2'): True
+  __replace__(pre=('alpha', True)): str='1.2aTrue'

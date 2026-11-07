@@ -1,0 +1,91 @@
+>> verifying pinned torch==2.15.0+cpu in /home/hatch/workspace/.venv-torch
+   torch 2.15.0+cpu, hypothesis 6.170.14, numpy 2.5.4
+>> running property tests (HYPOTHESIS_PROFILE=default)
+.....F.....................                                              [100%]
+=================================== FAILURES ===================================
+___________________ test_b4_float_sum_exact_agreement_probe ____________________
+
+    @given(a=hnp.arrays(np.dtype("f4"), hnp.array_shapes(max_dims=1, max_side=12),
+>                       elements=st.floats(allow_nan=False, allow_infinity=False,
+                   ^^^
+                                           width=32)))
+
+test_pbt_broadcast.py:108: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = array([3.355445e+06, 3.355445e+06, 3.355445e+06, 3.355445e+06,
+       3.355445e+06, 3.355445e+06, 3.355445e+06, 3.355445e+06],
+      dtype=float32)
+
+    @given(a=hnp.arrays(np.dtype("f4"), hnp.array_shapes(max_dims=1, max_side=12),
+                        elements=st.floats(allow_nan=False, allow_infinity=False,
+                                           width=32)))
+    def test_b4_float_sum_exact_agreement_probe(a):
+        """B4 (deliberate probe): torch.sum == np.sum bit-exactly on float32.
+    
+        Neither library documents a reduction order, and pairwise/vectorised
+        summation makes float addition non-associative, so exact agreement is
+        NOT a contract. Stated and run to map where the two implementations
+        actually diverge; a failure triages as wrong property by design.
+        """
+        t = to_torch(a)
+>       assert t.sum().item() == np.sum(a).item()
+E       assert 26843556.0 == 26843560.0
+E        +  where 26843556.0 = <built-in method item of Tensor object at 0x7c69c26c4f50>()
+E        +    where <built-in method item of Tensor object at 0x7c69c26c4f50> = tensor(26843556.).item
+E        +      where tensor(26843556.) = <built-in method sum of Tensor object at 0x7c69c26ef430>()
+E        +        where <built-in method sum of Tensor object at 0x7c69c26ef430> = tensor([3355445., 3355445., 3355445., 3355445., 3355445., 3355445., 3355445.,\n        3355445.]).sum
+E        +  and   26843560.0 = <built-in method item of numpy.float32 object at 0x7c69c2161830>()
+E        +    where <built-in method item of numpy.float32 object at 0x7c69c2161830> = np.float32(2.684356e+07).item
+E        +      where np.float32(2.684356e+07) = <function sum at 0x7c69e89aa730>(array([3.355445e+06, 3.355445e+06, 3.355445e+06, 3.355445e+06,\n       3.355445e+06, 3.355445e+06, 3.355445e+06, 3.355445e+06],\n      dtype=float32))
+E        +        where <function sum at 0x7c69e89aa730> = np.sum
+E       Failing test case: test_b4_float_sum_exact_agreement_probe(
+E           a=array([3.355445e+06, 3.355445e+06, 3.355445e+06, 3.355445e+06,
+E                  3.355445e+06, 3.355445e+06, 3.355445e+06, 3.355445e+06],
+E                 dtype=float32),
+E       )
+E       Explanation:
+E           These lines were always and only run by failing test cases:
+E               /home/hatch/workspace/.venv-torch/lib/python3.12/site-packages/numpy/_core/arrayprint.py:1021
+E               /home/hatch/workspace/.venv-torch/lib/python3.12/site-packages/numpy/_core/arrayprint.py:1022
+E               /home/hatch/workspace/.venv-torch/lib/python3.12/site-packages/torch/autograd/grad_mode.py:86
+E               /home/hatch/workspace/.venv-torch/lib/python3.12/site-packages/torch/utils/_python_dispatch.py:392
+E               /home/hatch/workspace/.venv-torch/lib/python3.12/site-packages/torch/utils/_python_dispatch.py:441
+
+test_pbt_broadcast.py:119: AssertionError
+=============================== warnings summary ===============================
+test_pbt_broadcast.py::test_b2_float_broadcast_values_match_numpy
+test_pbt_broadcast.py::test_b2_float_broadcast_values_match_numpy
+  /home/hatch/workspace/pbt-lab/targets/pytorch-pytorch/harness/test_pbt_broadcast.py:38: RuntimeWarning: overflow encountered in add
+    assert np.array_equal((ta + tb).numpy(), a + b)
+
+test_pbt_broadcast.py::test_b2_float_broadcast_values_match_numpy
+test_pbt_broadcast.py::test_b2_float_broadcast_values_match_numpy
+test_pbt_broadcast.py::test_b2_float_broadcast_values_match_numpy
+test_pbt_broadcast.py::test_b2_float_broadcast_values_match_numpy
+test_pbt_broadcast.py::test_b2_float_broadcast_values_match_numpy
+test_pbt_broadcast.py::test_b2_float_broadcast_values_match_numpy
+  /home/hatch/workspace/pbt-lab/targets/pytorch-pytorch/harness/test_pbt_broadcast.py:39: RuntimeWarning: overflow encountered in multiply
+    assert np.array_equal((ta * tb).numpy(), a * b)
+
+test_pbt_broadcast.py::test_b4_float_sum_exact_agreement_probe
+test_pbt_broadcast.py::test_b4_float_sum_exact_agreement_probe
+  /home/hatch/workspace/.venv-torch/lib/python3.12/site-packages/numpy/_core/fromnumeric.py:83: RuntimeWarning: overflow encountered in reduce
+    return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+
+test_pbt_promotion.py::test_d3_result_type_of_tensors_is_promote_types
+  /home/hatch/workspace/pbt-lab/targets/pytorch-pytorch/harness/test_pbt_promotion.py:76: UserWarning: ComplexHalf support is experimental and many operators don't support it yet. (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/EmptyTensor.cpp:54.)
+    ea, eb = torch.empty(0, dtype=a), torch.empty(0, dtype=b)
+
+test_pbt_serialization.py: 12 warnings
+  /home/hatch/workspace/.venv-torch/lib/python3.12/site-packages/hypothesis/extra/numpy.py:283: RuntimeWarning: overflow encountered in cast
+    result[idx] = val
+
+test_pbt_serialization.py: 12 warnings
+  /home/hatch/workspace/.venv-torch/lib/python3.12/site-packages/hypothesis/extra/numpy.py:292: RuntimeWarning: overflow encountered in cast
+    elem_changed = self._check_elements and val != result[idx] and val == val
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED test_pbt_broadcast.py::test_b4_float_sum_exact_agreement_probe - asser...
+1 failed, 26 passed, 35 warnings in 14.60s

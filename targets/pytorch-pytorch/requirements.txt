@@ -1,0 +1,6 @@
+# Pinned environment for the pytorch-pytorch lab target (CPU build).
+# torch 2.15.0+cpu is the target under test; the rest is harness tooling.
+torch==2.15.0+cpu
+numpy==2.5.4
+hypothesis==6.170.14
+pytest==9.2.0

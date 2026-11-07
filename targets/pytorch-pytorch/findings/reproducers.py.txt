@@ -1,0 +1,35 @@
+# Standalone reproducers for the pytorch-pytorch lab findings.
+# Plain torch/numpy, no Hypothesis. Run with the lab venv:
+#   ~/workspace/.venv-torch/bin/python reproducers.py.txt
+import numpy as np
+import torch
+
+print("torch", torch.__version__, "| numpy", np.__version__)
+
+# --- Finding 001 (B4): float32 sum is order-dependent -------------------
+a = np.array([0.0, 0.0, 3.0, 67108864.0, 3.0], dtype=np.float32)
+print("B4 input:           ", a.tolist())
+print("B4 torch.sum:       ", torch.from_numpy(a).sum().item())
+print("B4 numpy sum:       ", np.sum(a).item())
+print("B4 exactly-rounded: ", 67108870.0, "(both are off, in opposite")
+print("                     directions: torch groups the small values,")
+print("                     numpy's pairwise order swallows them)")
+
+# --- Finding 003 (I3/I3b): negative-step slicing ------------------------
+t = torch.arange(5)
+a = np.arange(5)
+for s in [slice(None, None, -1), slice(2, 0, -1), slice(0, 0, -3)]:
+    try:
+        torch_result = t[s].tolist()
+    except ValueError as e:
+        torch_result = f"ValueError: {e}"
+    print(f"I3 {s}: torch -> {torch_result} | numpy -> {a[s].tolist()}")
+print("I3 sanctioned equivalent: torch.flip(t, [0]) =",
+      torch.flip(t, [0]).tolist())
+
+# --- Finding 002 (D4): the documented weak-scalar rule, incl. bfloat16 --
+for dt, scalar in [(torch.bfloat16, 1j), (torch.float16, 1j),
+                   (torch.int64, 1.0), (torch.bool, 1),
+                   (torch.float32, 1)]:
+    print(f"D4 result_type({dt}, {scalar!r}) =",
+          torch.result_type(torch.empty(0, dtype=dt), scalar))

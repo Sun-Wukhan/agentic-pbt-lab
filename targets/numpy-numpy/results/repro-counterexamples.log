@@ -1,0 +1,14 @@
+numpy 2.5.4
+docstring contract: This function is symmetric, but rarely associative.
+
+minimal triple: (int8, uint8, float16)
+  promote(promote(int8,uint8) = int16, float16) = float32
+  promote(int8, promote(uint8,float16) = float16) = float16
+
+exhaustive over 14 dtypes: 28 of 2744 ordered triples non-associative; 0 of 196 ordered pairs non-commutative
+first non-associative triples:
+   (dtype('int8'), dtype('uint8'), dtype('float16'))
+   (dtype('int8'), dtype('uint16'), dtype('float16'))
+   (dtype('int8'), dtype('uint16'), dtype('float32'))
+   (dtype('int8'), dtype('uint16'), dtype('complex64'))
+   (dtype('uint8'), dtype('int8'), dtype('float16'))

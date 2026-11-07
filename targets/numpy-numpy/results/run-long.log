@@ -1,0 +1,63 @@
+...........F.............                                                [100%]
+=================================== FAILURES ===================================
+______________________ test_p3_promote_types_associative _______________________
+
+    @given(a=PROMOTION_DTYPES, b=PROMOTION_DTYPES, c=PROMOTION_DTYPES)
+>   def test_p3_promote_types_associative(a, b, c):
+                   ^^^
+
+harness/test_pbt_promotion.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = dtype('int8'), b = dtype('uint8'), c = dtype('float16')
+
+    @given(a=PROMOTION_DTYPES, b=PROMOTION_DTYPES, c=PROMOTION_DTYPES)
+    def test_p3_promote_types_associative(a, b, c):
+        """P3: promote_types(promote_types(a, b), c)
+        == promote_types(a, promote_types(b, c)).
+    
+        Stated as the lattice property one would want; the docstring warns the
+        function is "rarely associative", so a failure here is expected to
+        triage as a wrong property, not a bug. Recorded deliberately.
+        """
+        lhs = np.promote_types(np.promote_types(a, b), c)
+        rhs = np.promote_types(a, np.promote_types(b, c))
+>       assert lhs == rhs, f"promote({a},{b},{c}): {lhs} != {rhs}"
+E       AssertionError: promote(int8,uint8,float16): float32 != float16
+E       assert dtype('float32') == dtype('float16')
+E       Failing test case: test_p3_promote_types_associative(
+E           a=dtype('int8'),
+E           b=dtype('uint8'),
+E           c=dtype('float16'),
+E       )
+
+harness/test_pbt_promotion.py:34: AssertionError
+=============================== warnings summary ===============================
+harness/test_pbt_serialization.py: 283 warnings
+  /home/hatch/workspace/pbt-lab/targets/numpy-numpy/harness/test_pbt_serialization.py:18: RuntimeWarning: invalid value encountered in cast
+    a = base.astype(data.draw(FIXED_DTYPES))
+
+harness/test_pbt_serialization.py: 75 warnings
+  /home/hatch/workspace/pbt-lab/targets/numpy-numpy/harness/test_pbt_serialization.py:18: RuntimeWarning: overflow encountered in cast
+    a = base.astype(data.draw(FIXED_DTYPES))
+
+harness/test_pbt_serialization.py: 293 warnings
+  /home/hatch/workspace/pbt-lab/targets/numpy-numpy/harness/test_pbt_serialization.py:29: RuntimeWarning: invalid value encountered in cast
+    a = base.astype(data.draw(FIXED_DTYPES))
+
+harness/test_pbt_serialization.py: 95 warnings
+  /home/hatch/workspace/pbt-lab/targets/numpy-numpy/harness/test_pbt_serialization.py:29: RuntimeWarning: overflow encountered in cast
+    a = base.astype(data.draw(FIXED_DTYPES))
+
+harness/test_pbt_serialization.py: 348 warnings
+  /home/hatch/workspace/pbt-lab/targets/numpy-numpy/harness/test_pbt_serialization.py:53: RuntimeWarning: invalid value encountered in cast
+    a = base.astype(data.draw(FIXED_DTYPES))
+
+harness/test_pbt_serialization.py: 97 warnings
+  /home/hatch/workspace/pbt-lab/targets/numpy-numpy/harness/test_pbt_serialization.py:53: RuntimeWarning: overflow encountered in cast
+    a = base.astype(data.draw(FIXED_DTYPES))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED harness/test_pbt_promotion.py::test_p3_promote_types_associative - Ass...
+1 failed, 24 passed, 1191 warnings in 138.09s (0:02:18)

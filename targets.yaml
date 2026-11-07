@@ -74,12 +74,54 @@ wave2:  # repos Navid already has PRs / maintainer relationships in
     status: queued
 
 wave3:  # Python ecosystem, paper-faithful (Hypothesis), chosen per target when scheduled
+  - slug: numpy-numpy
+    repo: numpy/numpy
+    lang: python
+    framework: hypothesis
+    version: "numpy 2.5.4 (PyPI wheel), Python 3.12.3, hypothesis 6.170.14"
+    surfaces: [dtype promotion lattice, broadcast_shapes vs np.broadcast, reshape/transpose round-trips, sort/argsort/partition invariants, tobytes/frombuffer and save/load round-trips, integer arithmetic identities]
+    status: triaged (25 properties; 24 pass at 2,000 examples; 1 counterexample = documented promote_types non-associativity, wrong property; 0 bugs, nothing filed)
+  - slug: pytorch-pytorch
+    repo: pytorch/pytorch
+    lang: python
+    framework: hypothesis
+    version: "torch 2.15.0+cpu (PyPI wheel), numpy 2.5.4, Python 3.12, hypothesis 6.170.14"
+    surfaces: [broadcasting values/shapes vs NumPy, dtype promotion incl. Python-scalar weak promotion, view/reshape semantics, split/join inverses, indexing, save/load round-trips, sorting]
+    status: triaged (27 properties; 26 pass at 200 + 2,000 examples; 1 deliberate probe failure; 0 confirmed bugs — 5 findings: 2 wrong properties, 1 documented divergence, 2 harness-artifact groups; nothing filed)
+  - slug: pypa-packaging
+    repo: pypa/packaging
+    lang: python
+    framework: hypothesis
+    version: "packaging 26.4.dev0 @ 713d0d78 (shallow clone, installed into target venv), Python 3.12.3, hypothesis 6.170.15"
+    surfaces: [Version parse/str round-trips and ordering (new _cmpkey), specifier containment self-consistency across the _fast_match / range-engine / filter paths, VersionRange set algebra vs membership, Requirement/Marker round-trips and marker evaluation, canonicalize_name vs PEP 503 model]
+    status: triaged (36 properties; all pass at 500 and 2,000 examples; 2 confirmed bugs — Requirement parser rejects spec-valid ===-combined specifiers with spaces (Finding 001, also in 25.0), from_parts validators accept bool parts (Finding 002, low severity); nothing filed, local-only run)
   - slug: python-ecosystem
     repo: "(per-package, following Maaz et al.'s 100-package method)"
     lang: python
     framework: hypothesis
     surfaces: [serialization round-trips, parsers, numeric edge cases]
     status: queued
+  - slug: encode-httpx
+    repo: encode/httpx
+    lang: python
+    framework: hypothesis
+    version: "httpx main @ b5addb64f0161ff6bfe94c124ef76f6a1fba5254 (post-0.28.1 tree, shallow clone), Python 3.12.3, hypothesis 6.170.14"
+    surfaces: [URL parse/print round-trips and normalization idempotence, IDNA host contract, dot-segment removal vs RFC 3986 5.2.4, copy_with/join semantics, QueryParams multi-dict round-trips, Headers case-insensitivity and Mapping contract]
+    status: triaged (27 properties; 18 pass at 500 and 2,000 examples; 9 property failures -> 6 confirmed bugs + 1 wrong-property observation; nothing filed — local-only run)
+
+wave4:  # high-risk flagship libraries (added 2026-10-31, Navid's call)
+  - slug: kubernetes-apimachinery
+    repo: kubernetes/apimachinery
+    lang: go
+    framework: rapid
+    surfaces: [resource.Quantity parse/print/arithmetic, labels selector parse/match, intstr percent scaling, metav1 ParseToLabelSelector consistency]
+    status: triaged (24 properties, 100 + 2,000 checks; 1 confirmed bug in ParseToLabelSelector, not filed per run instructions)
+  - slug: masterminds-semver
+    repo: Masterminds/semver
+    lang: go
+    framework: rapid
+    surfaces: [version parse/coercion round-trips, SemVer §11 ordering vs independent model, Inc*/Set* semantics, constraint Check/Validate model, range equivalences, constraint String round-trips]
+    status: triaged (22 properties, 100 + 2,000 checks; 1 confirmed bug — prerelease numeric identifiers >uint64 compared lexically in comparePrePart, not filed per run instructions)
 
 excluded:
   - repo: openbao/openbao

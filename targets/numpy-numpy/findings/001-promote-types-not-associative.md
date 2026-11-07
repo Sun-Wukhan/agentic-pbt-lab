@@ -1,0 +1,11 @@
+# Finding: `promote_types` is not associative — `(int8, uint8, float16)` promotes to `float32` or `float16` depending on grouping
+
+- Target / property: numpy 2.5.4 — property P3 (`test_p3_promote_types_associative`): `promote_types(promote_types(a, b), c) == promote_types(a, promote_types(b, c))` for all dtype triples, the join-associativity a promotion lattice would need.
+- Minimal counterexample (shrunk by Hypothesis; also the first triple in an exhaustive scan — plain-Python repro in `reproducers.py`, output in `../results/repro-counterexamples.log`):
+  - `promote_types(promote_types(int8, uint8), float16) = promote_types(int16, float16) = float32`
+  - `promote_types(int8, promote_types(uint8, float16)) = promote_types(int8, float16) = float16`
+- Observed vs expected: left grouping first widens `int8`+`uint8` to `int16`, and `int16` cannot be represented exactly in `float16` (10-bit mantissa), so the pair steps up to `float32`. Right grouping first promotes `uint8`+`float16` to `float16` (every `uint8` is exact in `float16`), and `int8`+`float16` is likewise `float16`. Same three dtypes, two different "smallest common types" — there is no unique least upper bound, so promotion is not a lattice join. Exhaustive over the lab's 14-dtype set: **28 of 2,744 ordered triples** are non-associative (~1%); commutativity (P1) holds for all 196 ordered pairs.
+- Verdict: **wrong property** — as stated. Not a bug.
+- Reasoning: NumPy documents this in the function's own docstring: "This function is symmetric, but rarely associative." NEP 50 defines promotion pairwise, and `result_type` folds it over arguments in order; associativity is explicitly not part of the contract. P3 was stated deliberately (mirroring the rclone lab's F6/F7 naive-identity properties) to map exactly where the lattice intuition breaks: it breaks only where a mixed-sign integer widening crosses a small float's mantissa limit. The practical consequence is real but documented: code that folds `promote_types` in different orders over ≥3 dtypes can get different results, and NumPy's own answer is to use `result_type` over all inputs at once.
+- Upstream issue: none — documented behaviour, not reportable.
+- Fix PR: n/a.

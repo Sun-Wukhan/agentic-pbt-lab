@@ -1,0 +1,12 @@
+# Finding: a leading `:` is silently eaten as an empty-scheme delimiter — `URL(":http://e/")` prints as an absolute URL it is not
+
+- Target / property: encode/httpx `main` @ `b5addb6` — property U2 (mutation idempotence / canonical form). Shrunk counterexample (Hypothesis): input `':http://ß/?'` → `str(u) == 'http://%C3%9F/?'`, which re-parses to a different URL (host `%c3%9f`, absolute) than the original (relative, path `http://ß/`).
+- Minimal counterexample (plain Python, see `reproducers.py`):
+  - `URL(":foo")` → `str` `"foo"`, `.path == "foo"` — the colon vanishes (stdlib `urlsplit(":foo").path == ":foo"`)
+  - `URL(":http://e/")` → relative URL (`is_absolute_url` is `False`, `.path == "http://e/"`) whose string form is `"http://e/"`; `URL(str(u))` is an absolute URL with `.host == "e"`. Same string, two different URLs; the string is not a canonical form.
+  - `URL(":a:b")` → `str` `"a:b"`, which re-parses with scheme `"a"`.
+- Observed vs expected: `_urlparse.validate_path` explicitly rejects relative paths starting with `:` ("Relative URLs cannot have a path starting with ':'"), because a colon in the first segment is exactly what makes a reference ambiguous with a scheme. But `URL_REGEX`'s scheme group is `([a-zA-Z][a-zA-Z0-9+.-]*)?:` — the character class is starred, so it matches the **empty** scheme and consumes a leading `:` as the scheme delimiter before `validate_path` ever sees the path. The guard is unreachable for the one input shape it exists for.
+- Verdict: **confirmed bug** (parser edge; low severity, adversarial-input flavoured).
+- Reasoning: RFC 3986 requires a scheme to start with a letter (`scheme = ALPHA *( ALPHA / DIGIT / "+" / "-" / "." )`), so `":foo"` is not a valid URI reference at all and httpx's own validation rule says so; instead of `InvalidURL`, the parser silently drops the colon and manufactures a different reference. Reachability is any code feeding semi-trusted strings into `URL()` and later re-serializing them — redirect `Location` values, link headers, config entries: a stored-then-reloaded URL can change from a relative reference into an absolute URL pointing at a host taken from the path text (an open-redirect-flavoured surprise), or lose its first character. The fix direction is to require at least one scheme character before the colon in `URL_REGEX` (or reject a leading `:` up front, matching `validate_path`'s stated rule).
+- Upstream issue: none (local-only run; no upstream contact per run instructions).
+- Fix PR: n/a.

@@ -1,0 +1,81 @@
+=== RUN   TestPBTCompareMatchesSpecModel
+    pbt_version_test.go:216: [rapid] failed after 0 tests: Compare("0.0.0-100000000000000000000.a.0+a", "0.0.0-20000000000000000000") sign = -1, spec model = 1
+        To reproduce, specify -run="TestPBTCompareMatchesSpecModel" -rapid.failfile="testdata/rapid/TestPBTCompareMatchesSpecModel/TestPBTCompareMatchesSpecModel-20261107151146-18861.fail"
+        Failed test output:
+    gen.go:40: [rapid] draw aMajKind: 0
+    gen.go:42: [rapid] draw aMajSmall: 0x0
+    gen.go:40: [rapid] draw aMinKind: 0
+    gen.go:42: [rapid] draw aMinSmall: 0x0
+    gen.go:40: [rapid] draw aPatKind: 0
+    gen.go:42: [rapid] draw aPatSmall: 0x0
+    gen.go:101: [rapid] draw aHasPre: 0
+    gen.go:102: [rapid] draw aPreN: 3
+    gen.go:55: [rapid] draw aPre0Kind: 4
+    gen.go:59: [rapid] draw aPre0Len: 21
+    gen.go:61: [rapid] draw aPre0First: 0
+    gen.go:63: [rapid] draw aPre01: 0
+    gen.go:63: [rapid] draw aPre02: 0
+    gen.go:63: [rapid] draw aPre03: 0
+    gen.go:63: [rapid] draw aPre04: 0
+    gen.go:63: [rapid] draw aPre05: 0
+    gen.go:63: [rapid] draw aPre06: 0
+    gen.go:63: [rapid] draw aPre07: 0
+    gen.go:63: [rapid] draw aPre08: 0
+    gen.go:63: [rapid] draw aPre09: 0
+    gen.go:63: [rapid] draw aPre010: 0
+    gen.go:63: [rapid] draw aPre011: 0
+    gen.go:63: [rapid] draw aPre012: 0
+    gen.go:63: [rapid] draw aPre013: 0
+    gen.go:63: [rapid] draw aPre014: 0
+    gen.go:63: [rapid] draw aPre015: 0
+    gen.go:63: [rapid] draw aPre016: 0
+    gen.go:63: [rapid] draw aPre017: 0
+    gen.go:63: [rapid] draw aPre018: 0
+    gen.go:63: [rapid] draw aPre019: 0
+    gen.go:63: [rapid] draw aPre020: 0
+    gen.go:55: [rapid] draw aPre1Kind: 9
+    gen.go:71: [rapid] draw aPre1Alen: 1
+    gen.go:75: [rapid] draw aPre1A0: 0
+    gen.go:55: [rapid] draw aPre2Kind: 0
+    gen.go:57: [rapid] draw aPre2Num: 0x0
+    gen.go:109: [rapid] draw aHasMeta: 0
+    gen.go:110: [rapid] draw aMetaN: 1
+    gen.go:86: [rapid] draw aMeta0Len: 1
+    gen.go:90: [rapid] draw aMeta00: 0
+    gen.go:40: [rapid] draw bMajKind: 0
+    gen.go:42: [rapid] draw bMajSmall: 0x0
+    gen.go:40: [rapid] draw bMinKind: 0
+    gen.go:42: [rapid] draw bMinSmall: 0x0
+    gen.go:40: [rapid] draw bPatKind: 0
+    gen.go:42: [rapid] draw bPatSmall: 0x0
+    gen.go:101: [rapid] draw bHasPre: 0
+    gen.go:102: [rapid] draw bPreN: 1
+    gen.go:55: [rapid] draw bPre0Kind: 4
+    gen.go:59: [rapid] draw bPre0Len: 20
+    gen.go:61: [rapid] draw bPre0First: 1
+    gen.go:63: [rapid] draw bPre01: 0
+    gen.go:63: [rapid] draw bPre02: 0
+    gen.go:63: [rapid] draw bPre03: 0
+    gen.go:63: [rapid] draw bPre04: 0
+    gen.go:63: [rapid] draw bPre05: 0
+    gen.go:63: [rapid] draw bPre06: 0
+    gen.go:63: [rapid] draw bPre07: 0
+    gen.go:63: [rapid] draw bPre08: 0
+    gen.go:63: [rapid] draw bPre09: 0
+    gen.go:63: [rapid] draw bPre010: 0
+    gen.go:63: [rapid] draw bPre011: 0
+    gen.go:63: [rapid] draw bPre012: 0
+    gen.go:63: [rapid] draw bPre013: 0
+    gen.go:63: [rapid] draw bPre014: 0
+    gen.go:63: [rapid] draw bPre015: 0
+    gen.go:63: [rapid] draw bPre016: 0
+    gen.go:63: [rapid] draw bPre017: 0
+    gen.go:63: [rapid] draw bPre018: 0
+    gen.go:63: [rapid] draw bPre019: 0
+    gen.go:109: [rapid] draw bHasMeta: 3
+    pbt_version_test.go:222: [rapid] draw shareCore: 0
+    pbt_version_test.go:229: Compare("0.0.0-100000000000000000000.a.0+a", "0.0.0-20000000000000000000") sign = -1, spec model = 1
+--- FAIL: TestPBTCompareMatchesSpecModel (0.00s)
+FAIL
+FAIL	pbt/semver	0.008s
+FAIL

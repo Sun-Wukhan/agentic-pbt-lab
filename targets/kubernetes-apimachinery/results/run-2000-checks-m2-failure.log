@@ -1,0 +1,98 @@
+=== RUN   TestPBTParseQuantityNeverPanics
+    pbt_resource_test.go:95: [rapid] OK, passed 2000 tests (23.669436ms)
+--- PASS: TestPBTParseQuantityNeverPanics (0.02s)
+=== RUN   TestPBTQuantityStringRoundTrip
+    pbt_resource_test.go:110: [rapid] OK, passed 2000 tests (79.88248ms)
+--- PASS: TestPBTQuantityStringRoundTrip (0.08s)
+=== RUN   TestPBTQuantityCanonicalizeRoundTrip
+    pbt_resource_test.go:130: [rapid] OK, passed 2000 tests (101.344922ms)
+--- PASS: TestPBTQuantityCanonicalizeRoundTrip (0.10s)
+=== RUN   TestPBTQuantityCmpAntisymmetricAndSign
+    pbt_resource_test.go:151: [rapid] OK, passed 2000 tests (112.430826ms)
+--- PASS: TestPBTQuantityCmpAntisymmetricAndSign (0.11s)
+=== RUN   TestPBTQuantityCmpTransitive
+    pbt_resource_test.go:172: [rapid] OK, passed 2000 tests (185.928429ms)
+--- PASS: TestPBTQuantityCmpTransitive (0.19s)
+=== RUN   TestPBTQuantityAddCommutative
+    pbt_resource_test.go:186: [rapid] OK, passed 2000 tests (94.375449ms)
+--- PASS: TestPBTQuantityAddCommutative (0.09s)
+=== RUN   TestPBTQuantityAddSubInverse
+    pbt_resource_test.go:209: [rapid] OK, passed 2000 tests (60.117657ms)
+--- PASS: TestPBTQuantityAddSubInverse (0.06s)
+=== RUN   TestPBTQuantityAddZeroSubSelf
+    pbt_resource_test.go:239: [rapid] OK, passed 2000 tests (37.437135ms)
+--- PASS: TestPBTQuantityAddZeroSubSelf (0.04s)
+=== RUN   TestPBTQuantityCmpVsSubSign
+    pbt_resource_test.go:258: [rapid] OK, passed 2000 tests (28.43479ms)
+--- PASS: TestPBTQuantityCmpVsSubSign (0.03s)
+=== RUN   TestPBTQuantityScaledValueExact
+    pbt_resource_test.go:282: [rapid] OK, passed 2000 tests (2.826764ms)
+--- PASS: TestPBTQuantityScaledValueExact (0.00s)
+=== RUN   TestPBTQuantityScaledValueRounding
+    pbt_resource_test.go:297: [rapid] OK, passed 2000 tests (1.547553ms)
+--- PASS: TestPBTQuantityScaledValueRounding (0.00s)
+=== RUN   TestPBTQuantityScaledValueSaturates
+    pbt_resource_test.go:321: [rapid] OK, passed 2000 tests (2.881176ms)
+--- PASS: TestPBTQuantityScaledValueSaturates (0.00s)
+=== RUN   TestPBTQuantityScaledValueMonotonic
+    pbt_resource_test.go:347: [rapid] OK, passed 2000 tests (75.127371ms)
+--- PASS: TestPBTQuantityScaledValueMonotonic (0.08s)
+PASS
+ok  	k8s.io/apimachinery/pkg/api/resource	0.897s
+=== RUN   TestPBTLabelsParseNeverPanics
+    pbt_labels_test.go:115: [rapid] OK, passed 2000 tests (199.411232ms)
+--- PASS: TestPBTLabelsParseNeverPanics (0.20s)
+=== RUN   TestPBTSelectorStringRoundTrip
+    pbt_labels_test.go:128: [rapid] OK, passed 2000 tests (135.534192ms)
+--- PASS: TestPBTSelectorStringRoundTrip (0.14s)
+=== RUN   TestPBTSelectorMatchesModel
+    pbt_labels_test.go:153: [rapid] OK, passed 2000 tests (89.737545ms)
+--- PASS: TestPBTSelectorMatchesModel (0.09s)
+=== RUN   TestPBTSelectorFromSetMatches
+    pbt_labels_test.go:188: [rapid] OK, passed 2000 tests (76.821675ms)
+--- PASS: TestPBTSelectorFromSetMatches (0.08s)
+PASS
+ok  	k8s.io/apimachinery/pkg/labels	0.590s
+=== RUN   TestPBTIntstrScaledNeverPanics
+    pbt_intstr_test.go:33: [rapid] OK, passed 2000 tests (91.899511ms)
+--- PASS: TestPBTIntstrScaledNeverPanics (0.09s)
+=== RUN   TestPBTIntstrIntPassthrough
+    pbt_intstr_test.go:50: [rapid] OK, passed 2000 tests (39.405511ms)
+--- PASS: TestPBTIntstrIntPassthrough (0.04s)
+=== RUN   TestPBTIntstrPercentExact
+    pbt_intstr_test.go:73: [rapid] OK, passed 2000 tests (56.248547ms)
+--- PASS: TestPBTIntstrPercentExact (0.06s)
+=== RUN   TestPBTIntstrPercentBoundsAndMonotonic
+    pbt_intstr_test.go:97: [rapid] OK, passed 2000 tests (10.917741ms)
+--- PASS: TestPBTIntstrPercentBoundsAndMonotonic (0.01s)
+PASS
+ok  	k8s.io/apimachinery/pkg/util/intstr	0.287s
+=== RUN   TestPBTParseToLabelSelectorNeverPanics
+    pbt_metav1_test.go:70: [rapid] OK, passed 2000 tests (19.911964ms)
+--- PASS: TestPBTParseToLabelSelectorNeverPanics (0.02s)
+=== RUN   TestPBTParseToLabelSelectorAgreesWithLabels
+    pbt_metav1_test.go:85: [rapid] failed after 91 tests: parsers disagree on tier=web for "tier=db,tier,tier=web": LabelSelector form "tier=web,tier" vs direct "tier=db,tier,tier=web"
+        To reproduce, specify -run="TestPBTParseToLabelSelectorAgreesWithLabels" -rapid.failfile="testdata/rapid/TestPBTParseToLabelSelectorAgreesWithLabels/TestPBTParseToLabelSelectorAgreesWithLabels-20261031151416-10428.fail" (or -rapid.seed=9732024790111554122)
+        Failed test output:
+    pbt_metav1_test.go:47: [rapid] draw nreqs: 3
+    pbt_metav1_test.go:26: [rapid] draw key: "tier"
+    pbt_metav1_test.go:28: [rapid] draw form: 0
+    pbt_metav1_test.go:27: [rapid] draw v: "db"
+    pbt_metav1_test.go:26: [rapid] draw key: "tier"
+    pbt_metav1_test.go:28: [rapid] draw form: 4
+    pbt_metav1_test.go:26: [rapid] draw key: "tier"
+    pbt_metav1_test.go:28: [rapid] draw form: 0
+    pbt_metav1_test.go:27: [rapid] draw v: "web"
+    pbt_metav1_test.go:58: [rapid] draw include app: false
+    pbt_metav1_test.go:58: [rapid] draw include tier: true
+    pbt_metav1_test.go:59: [rapid] draw val tier: "web"
+    pbt_metav1_test.go:58: [rapid] draw include example.com/name: false
+    pbt_metav1_test.go:58: [rapid] draw include x: false
+    pbt_metav1_test.go:101: parsers disagree on tier=web for "tier=db,tier,tier=web": LabelSelector form "tier=web,tier" vs direct "tier=db,tier,tier=web"
+--- FAIL: TestPBTParseToLabelSelectorAgreesWithLabels (0.05s)
+=== RUN   TestPBTLabelsParseConsistency
+    pbt_metav1_test.go:113: [rapid] OK, passed 2000 tests (29.903605ms)
+--- PASS: TestPBTLabelsParseConsistency (0.03s)
+FAIL
+FAIL	k8s.io/apimachinery/pkg/apis/meta/v1	0.111s
+FAIL

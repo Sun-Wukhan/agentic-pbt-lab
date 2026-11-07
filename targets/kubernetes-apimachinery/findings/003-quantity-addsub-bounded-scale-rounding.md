@@ -1,0 +1,13 @@
+# Finding: `(a+b)−b == a` fails across the documented `maxScaleGap` boundary — Add/Sub round the finer operand away from zero by design
+
+- Target / property: kubernetes/apimachinery @ `b26d01364f13520dfdecb540fc63253be5b76662` — property Q7 (`TestPBTQuantityAddSubInverse`), first stated unconditionally: `(a+b)−b == a` and `(a−b)+b == a` for all parsed quantities.
+- Minimal counterexample (shrunk by rapid; plain-Go repro in `reproducers_test.go.txt`):
+  - `a = "8Ei"` → 9223372036854775807 (BinarySI parse cap), `b = "1e30"`: `a+b = 1000000000009223372036854775810`, and `(a+b)−b = 9223372036854775810 ≠ a` (off by +3).
+  - Same values with `a` written as the plain decimal `"9223372036854775807"` behave identically, so the BinarySI cap is not the cause.
+  - Smaller analogue: `123456789 + 1e30 = 1000000000000000000000123456790` — the addend's last digit is rounded up (…789 → …790).
+  - Control: `9223372036854775807 + 1e29` is exact, and `(a+1e29)−1e29 == a` (scale gap exactly 29).
+- Observed vs expected: the exact sum needs 31 significant digits. Before adding, `boundScaleGap` (`pkg/api/resource/amount.go`) compares the operands' `inf.Dec` scales — 0 for `a`, −30 for `1e30` — finds a gap of 30 > `maxScaleGap` (29), and rounds the finer-scale operand (`a`) away from zero at the 10¹ place: …807 → …810. The addition itself is then exact *for the rounded operand*, and the subtraction faithfully returns the rounded value.
+- Verdict: **wrong property — intended, documented behaviour.** Not a bug, not reportable.
+- Reasoning: the rounding is a deliberate, documented design: `amount.go`'s `maxScaleGap` comment explains the bound (29 digits keeps any int64-range sum exact and bounds running time), and `quantity.go`'s `Add`/`Sub` docs disclose it ("If non-zero operand values are more than 29 orders of magnitude apart, the finer-grained operand is rounded away from zero before the values are summed"). One nuance worth recording: the public doc phrases the trigger as operands' *magnitudes*, but the implementation keys on the Dec *scale* span — i.e. on how many significant digits the exact result would need. `9.2e18` and `1e30` are only ~11 orders of magnitude apart as values, yet rounding engages because the exact sum spans 31 digit positions. Q7 is now stated with the precondition mirrored from the implementation's own rule (|Dec scale gap| ≤ 29), under which it passes at all check counts; Q6 commutativity and Q9 sign agreement hold unconditionally, since the rounding depends only on the operand pair, not on order or direction.
+- Upstream issue: none.
+- Fix PR: none. Property corrected in place; reproducer in `reproducers_test.go.txt` (includes the gap-29 exactness control).

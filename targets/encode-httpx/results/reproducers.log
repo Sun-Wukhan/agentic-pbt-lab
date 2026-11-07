@@ -1,0 +1,36 @@
+== Finding 001: default-port elision depends on scheme case ==
+URL('HTTP://example.org:80/') -> http://example.org:80/ port: 80
+URL('http://example.org:80/') -> http://example.org/ port: None
+equal to port-less lowercase URL: False (expected True)
+reparse of str(u): http://example.org/ (str(u) itself is not a fixpoint)
+copy_with(path='/x'): http://example.org/x (port silently dropped)
+
+== Finding 002: IDNA decoding only when the first label is punycode ==
+中国.icom.museum (expected 中国.icom.museum)
+www.xn--fiqs8s.icom.museum (expected www.中国.icom.museum)
+
+== Finding 003: .host leaks raw idna exceptions ==
+http://xn--a.com/ -> .host raises idna.core.InvalidCodepoint (expected a value or httpx.InvalidURL)
+http://xn--.com/ -> .host raises idna.core.IDNAError (expected a value or httpx.InvalidURL)
+
+== Finding 004: dot-segment removal loses the trailing slash ==
+normalize_path('/..') -> ''  (RFC 3986 5.2.4 gives '/')
+normalize_path('/.') -> ''  (RFC 3986 5.2.4 gives '/')
+normalize_path('/a/..') -> ''  (RFC 3986 5.2.4 gives '/')
+normalize_path('/a/.') -> '/a'  (RFC 3986 5.2.4 gives '/a/')
+normalize_path('/a/b/../..') -> ''  (RFC 3986 5.2.4 gives '/')
+URL('http://e.org/a/..') == URL('http://e.org/'): False (expected True)
+
+== Finding 005: a leading ':' is silently eaten ==
+URL(':http://e/') -> str: http://e/ | is_absolute_url: False | path: http://e/
+URL(str(u)) -> host: e | is_absolute_url: True (same string, different URL)
+URL(':foo') -> foo (colon dropped; expected InvalidURL per validate_path's own rule)
+
+== Finding 006: len(Headers) counts duplicates ==
+len(h): 2 | len(list(h)): 1 | keys: ['a'] (Mapping contract: all three should agree)
+
+== Finding 007 (observation): join() flattens empty query/fragment ==
+URL('http://e.org/?').join('#frag') -> http://e.org/#frag (RFC: http://e.org/?#frag)
+URL('http://e.org/#a').join('') -> http://e.org/#a (RFC: http://e.org/)
+URL('a+b-c.d://0/?a=').join('#frag') -> #frag (urljoin returns the reference unresolved for unknown schemes)
+exit=0

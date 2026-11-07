@@ -1,0 +1,62 @@
+// Standalone reproducer for findings/001 — plain Go, no rapid.
+// Drop this file into a checkout of Masterminds/semver (repo root) as
+// pbt_repro_test.go and run: go test -run TestReproOverflowPrerelease -v
+package semver_test
+
+import (
+	"testing"
+
+	semver "github.com/Masterminds/semver/v3"
+)
+
+// SemVer 2.0 §11.4: identifiers compare numerically when both are
+// numeric; numeric identifiers have lower precedence than alphanumeric
+// ones. Numeric identifiers in a prerelease have no size limit in the
+// spec, and both parsers in this package accept them at any length.
+func TestReproOverflowPrereleaseCompare(t *testing.T) {
+	cases := []struct {
+		a, b string
+		want int // sign of Compare(a, b) per SemVer §11
+	}{
+		// 9.99e19 < 1.00e20 numerically, but the strings compare the
+		// other way lexically ("9..." > "1...").
+		{"1.0.0-99999999999999999999", "1.0.0-100000000000000000000", -1},
+		// The rapid-shrunk pair: 1e20 > 2e19 numerically, "1..." < "2..."
+		// lexically.
+		{"1.0.0-100000000000000000000", "1.0.0-20000000000000000000", 1},
+		// A numeric identifier, however large, precedes an alphanumeric
+		// one ("--" is a valid alphanumeric identifier: [0-9A-Za-z-],
+		// not purely numeric).
+		{"1.0.0-99999999999999999999", "1.0.0---", -1},
+		// Controls: ordinary spec ordering, all correct today.
+		{"1.0.0-alpha", "1.0.0-alpha.1", -1},
+		{"1.0.0-alpha.1", "1.0.0-alpha.beta", -1},
+		{"1.0.0-beta.2", "1.0.0-beta.11", -1},
+		{"1.0.0-rc.1", "1.0.0", -1},
+		{"1.0.0-21", "1.0.0-100", -1},
+		{"1.0.0-1", "1.0.0-alpha", -1},
+	}
+	for _, tc := range cases {
+		a, err := semver.StrictNewVersion(tc.a)
+		if err != nil {
+			t.Fatalf("StrictNewVersion(%q): %v", tc.a, err)
+		}
+		b, err := semver.StrictNewVersion(tc.b)
+		if err != nil {
+			t.Fatalf("StrictNewVersion(%q): %v", tc.b, err)
+		}
+		got := a.Compare(b)
+		sign := 0
+		if got < 0 {
+			sign = -1
+		} else if got > 0 {
+			sign = 1
+		}
+		if sign != tc.want {
+			t.Errorf("Compare(%q, %q) sign = %d, want %d (SemVer §11)", tc.a, tc.b, sign, tc.want)
+		}
+		if rev := b.Compare(a); (rev < 0 && sign <= 0) || (rev > 0 && sign >= 0) || (rev == 0) != (sign == 0) {
+			t.Errorf("Compare(%q, %q) = %d is not the negation of Compare(%q, %q) = %d", tc.b, tc.a, rev, tc.a, tc.b, got)
+		}
+	}
+}

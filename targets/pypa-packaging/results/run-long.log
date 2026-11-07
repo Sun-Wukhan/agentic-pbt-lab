@@ -1,0 +1,496 @@
+FFFFFFFFF...........................................                     [100%]
+=================================== FAILURES ===================================
+__________ test_finding_001_spec_valid_requirements_parse[x===0,>= 0] __________
+
+self = <[AttributeError("'Requirement' object has no attribute 'name'") raised in repr()] Requirement object at 0x705ba41e9620>
+requirement_string = 'x===0,>= 0'
+
+    def __init__(self, requirement_string: str) -> None:
+        try:
+>           parsed = _parse_requirement(requirement_string)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.venv/lib/python3.12/site-packages/packaging/requirements.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.12/site-packages/packaging/_parser.py:107: in parse_requirement
+    return _parse_requirement(Tokenizer(source, rules=DEFAULT_RULES))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/packaging/_parser.py:125: in _parse_requirement
+    url, specifier, marker = _parse_requirement_details(tokenizer)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/packaging/_parser.py:171: in _parse_requirement_details
+    marker = _parse_requirement_marker(
+.venv/lib/python3.12/site-packages/packaging/_parser.py:192: in _parse_requirement_marker
+    tokenizer.raise_syntax_error(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <packaging._tokenizer.Tokenizer object at 0x705ba4550f00>
+message = 'Expected comma (within version specifier), semicolon (after version specifier) or end'
+span_start = 1, span_end = None
+
+    def raise_syntax_error(
+        self,
+        message: str,
+        *,
+        span_start: int | None = None,
+        span_end: int | None = None,
+    ) -> NoReturn:
+        """Raise ParserSyntaxError at the given position."""
+        span = (
+            self.position if span_start is None else span_start,
+            self.position if span_end is None else span_end,
+        )
+>       raise ParserSyntaxError(
+            message,
+            source=self.source,
+            span=span,
+        )
+E       packaging._tokenizer.ParserSyntaxError: Expected comma (within version specifier), semicolon (after version specifier) or end
+E           x===0,>= 0
+E            ~~~~~~~~^
+
+.venv/lib/python3.12/site-packages/packaging/_tokenizer.py:171: ParserSyntaxError
+
+The above exception was the direct cause of the following exception:
+
+text = 'x===0,>= 0'
+
+    @pytest.mark.parametrize("text", SPEC_VALID)
+    def test_finding_001_spec_valid_requirements_parse(text):
+>       req = Requirement(text)
+              ^^^^^^^^^^^^^^^^^
+
+harness/test_finding_001.py:21: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[AttributeError("'Requirement' object has no attribute 'name'") raised in repr()] Requirement object at 0x705ba41e9620>
+requirement_string = 'x===0,>= 0'
+
+    def __init__(self, requirement_string: str) -> None:
+        try:
+            parsed = _parse_requirement(requirement_string)
+        except ParserSyntaxError as e:
+>           raise InvalidRequirement(str(e)) from e
+E           packaging.requirements.InvalidRequirement: Expected comma (within version specifier), semicolon (after version specifier) or end
+E               x===0,>= 0
+E                ~~~~~~~~^
+
+.venv/lib/python3.12/site-packages/packaging/requirements.py:104: InvalidRequirement
+__________ test_finding_001_spec_valid_requirements_parse[x===0, >=0] __________
+
+self = <[AttributeError("'Requirement' object has no attribute 'name'") raised in repr()] Requirement object at 0x705ba3d427f0>
+requirement_string = 'x===0, >=0'
+
+    def __init__(self, requirement_string: str) -> None:
+        try:
+>           parsed = _parse_requirement(requirement_string)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.venv/lib/python3.12/site-packages/packaging/requirements.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.12/site-packages/packaging/_parser.py:107: in parse_requirement
+    return _parse_requirement(Tokenizer(source, rules=DEFAULT_RULES))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/packaging/_parser.py:125: in _parse_requirement
+    url, specifier, marker = _parse_requirement_details(tokenizer)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/packaging/_parser.py:171: in _parse_requirement_details
+    marker = _parse_requirement_marker(
+.venv/lib/python3.12/site-packages/packaging/_parser.py:192: in _parse_requirement_marker
+    tokenizer.raise_syntax_error(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <packaging._tokenizer.Tokenizer object at 0x705ba3c1b100>
+message = 'Expected comma (within version specifier), semicolon (after version specifier) or end'
+span_start = 1, span_end = None
+
+    def raise_syntax_error(
+        self,
+        message: str,
+        *,
+        span_start: int | None = None,
+        span_end: int | None = None,
+    ) -> NoReturn:
+        """Raise ParserSyntaxError at the given position."""
+        span = (
+            self.position if span_start is None else span_start,
+            self.position if span_end is None else span_end,
+        )
+>       raise ParserSyntaxError(
+            message,
+            source=self.source,
+            span=span,
+        )
+E       packaging._tokenizer.ParserSyntaxError: Expected comma (within version specifier), semicolon (after version specifier) or end
+E           x===0, >=0
+E            ~~~~~~^
+
+.venv/lib/python3.12/site-packages/packaging/_tokenizer.py:171: ParserSyntaxError
+
+The above exception was the direct cause of the following exception:
+
+text = 'x===0, >=0'
+
+    @pytest.mark.parametrize("text", SPEC_VALID)
+    def test_finding_001_spec_valid_requirements_parse(text):
+>       req = Requirement(text)
+              ^^^^^^^^^^^^^^^^^
+
+harness/test_finding_001.py:21: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[AttributeError("'Requirement' object has no attribute 'name'") raised in repr()] Requirement object at 0x705ba3d427f0>
+requirement_string = 'x===0, >=0'
+
+    def __init__(self, requirement_string: str) -> None:
+        try:
+            parsed = _parse_requirement(requirement_string)
+        except ParserSyntaxError as e:
+>           raise InvalidRequirement(str(e)) from e
+E           packaging.requirements.InvalidRequirement: Expected comma (within version specifier), semicolon (after version specifier) or end
+E               x===0, >=0
+E                ~~~~~~^
+
+.venv/lib/python3.12/site-packages/packaging/requirements.py:104: InvalidRequirement
+_________ test_finding_001_spec_valid_requirements_parse[x===0,!= 1.0] _________
+
+self = <[AttributeError("'Requirement' object has no attribute 'name'") raised in repr()] Requirement object at 0x705ba3d40450>
+requirement_string = 'x===0,!= 1.0'
+
+    def __init__(self, requirement_string: str) -> None:
+        try:
+>           parsed = _parse_requirement(requirement_string)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.venv/lib/python3.12/site-packages/packaging/requirements.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.12/site-packages/packaging/_parser.py:107: in parse_requirement
+    return _parse_requirement(Tokenizer(source, rules=DEFAULT_RULES))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/packaging/_parser.py:125: in _parse_requirement
+    url, specifier, marker = _parse_requirement_details(tokenizer)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/packaging/_parser.py:171: in _parse_requirement_details
+    marker = _parse_requirement_marker(
+.venv/lib/python3.12/site-packages/packaging/_parser.py:192: in _parse_requirement_marker
+    tokenizer.raise_syntax_error(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <packaging._tokenizer.Tokenizer object at 0x705ba3bd6b40>
+message = 'Expected comma (within version specifier), semicolon (after version specifier) or end'
+span_start = 1, span_end = None
+
+    def raise_syntax_error(
+        self,
+        message: str,
+        *,
+        span_start: int | None = None,
+        span_end: int | None = None,
+    ) -> NoReturn:
+        """Raise ParserSyntaxError at the given position."""
+        span = (
+            self.position if span_start is None else span_start,
+            self.position if span_end is None else span_end,
+        )
+>       raise ParserSyntaxError(
+            message,
+            source=self.source,
+            span=span,
+        )
+E       packaging._tokenizer.ParserSyntaxError: Expected comma (within version specifier), semicolon (after version specifier) or end
+E           x===0,!= 1.0
+E            ~~~~~~~~^
+
+.venv/lib/python3.12/site-packages/packaging/_tokenizer.py:171: ParserSyntaxError
+
+The above exception was the direct cause of the following exception:
+
+text = 'x===0,!= 1.0'
+
+    @pytest.mark.parametrize("text", SPEC_VALID)
+    def test_finding_001_spec_valid_requirements_parse(text):
+>       req = Requirement(text)
+              ^^^^^^^^^^^^^^^^^
+
+harness/test_finding_001.py:21: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[AttributeError("'Requirement' object has no attribute 'name'") raised in repr()] Requirement object at 0x705ba3d40450>
+requirement_string = 'x===0,!= 1.0'
+
+    def __init__(self, requirement_string: str) -> None:
+        try:
+            parsed = _parse_requirement(requirement_string)
+        except ParserSyntaxError as e:
+>           raise InvalidRequirement(str(e)) from e
+E           packaging.requirements.InvalidRequirement: Expected comma (within version specifier), semicolon (after version specifier) or end
+E               x===0,!= 1.0
+E                ~~~~~~~~^
+
+.venv/lib/python3.12/site-packages/packaging/requirements.py:104: InvalidRequirement
+__________ test_finding_001_spec_valid_requirements_parse[x===0,< 2] ___________
+
+self = <[AttributeError("'Requirement' object has no attribute 'name'") raised in repr()] Requirement object at 0x705ba3d9b1a0>
+requirement_string = 'x===0,< 2'
+
+    def __init__(self, requirement_string: str) -> None:
+        try:
+>           parsed = _parse_requirement(requirement_string)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.venv/lib/python3.12/site-packages/packaging/requirements.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.12/site-packages/packaging/_parser.py:107: in parse_requirement
+    return _parse_requirement(Tokenizer(source, rules=DEFAULT_RULES))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/packaging/_parser.py:125: in _parse_requirement
+    url, specifier, marker = _parse_requirement_details(tokenizer)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/packaging/_parser.py:171: in _parse_requirement_details
+    marker = _parse_requirement_marker(
+.venv/lib/python3.12/site-packages/packaging/_parser.py:192: in _parse_requirement_marker
+    tokenizer.raise_syntax_error(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <packaging._tokenizer.Tokenizer object at 0x705ba3c33940>
+message = 'Expected comma (within version specifier), semicolon (after version specifier) or end'
+span_start = 1, span_end = None
+
+    def raise_syntax_error(
+        self,
+        message: str,
+        *,
+        span_start: int | None = None,
+        span_end: int | None = None,
+    ) -> NoReturn:
+        """Raise ParserSyntaxError at the given position."""
+        span = (
+            self.position if span_start is None else span_start,
+            self.position if span_end is None else span_end,
+        )
+>       raise ParserSyntaxError(
+            message,
+            source=self.source,
+            span=span,
+        )
+E       packaging._tokenizer.ParserSyntaxError: Expected comma (within version specifier), semicolon (after version specifier) or end
+E           x===0,< 2
+E            ~~~~~~~^
+
+.venv/lib/python3.12/site-packages/packaging/_tokenizer.py:171: ParserSyntaxError
+
+The above exception was the direct cause of the following exception:
+
+text = 'x===0,< 2'
+
+    @pytest.mark.parametrize("text", SPEC_VALID)
+    def test_finding_001_spec_valid_requirements_parse(text):
+>       req = Requirement(text)
+              ^^^^^^^^^^^^^^^^^
+
+harness/test_finding_001.py:21: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[AttributeError("'Requirement' object has no attribute 'name'") raised in repr()] Requirement object at 0x705ba3d9b1a0>
+requirement_string = 'x===0,< 2'
+
+    def __init__(self, requirement_string: str) -> None:
+        try:
+            parsed = _parse_requirement(requirement_string)
+        except ParserSyntaxError as e:
+>           raise InvalidRequirement(str(e)) from e
+E           packaging.requirements.InvalidRequirement: Expected comma (within version specifier), semicolon (after version specifier) or end
+E               x===0,< 2
+E                ~~~~~~~^
+
+.venv/lib/python3.12/site-packages/packaging/requirements.py:104: InvalidRequirement
+________ test_finding_001_spec_valid_requirements_parse[x (===0,>= 0)] _________
+
+self = <[AttributeError("'Requirement' object has no attribute 'name'") raised in repr()] Requirement object at 0x705ba3d9b150>
+requirement_string = 'x (===0,>= 0)'
+
+    def __init__(self, requirement_string: str) -> None:
+        try:
+>           parsed = _parse_requirement(requirement_string)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.venv/lib/python3.12/site-packages/packaging/requirements.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.12/site-packages/packaging/_parser.py:107: in parse_requirement
+    return _parse_requirement(Tokenizer(source, rules=DEFAULT_RULES))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/packaging/_parser.py:125: in _parse_requirement
+    url, specifier, marker = _parse_requirement_details(tokenizer)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/packaging/_parser.py:165: in _parse_requirement_details
+    specifier = _parse_specifier(tokenizer)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/packaging/_parser.py:256: in _parse_specifier
+    with tokenizer.enclosing_tokens(
+/usr/lib/python3.12/contextlib.py:144: in __exit__
+    next(self.gen)
+.venv/lib/python3.12/site-packages/packaging/_tokenizer.py:193: in enclosing_tokens
+    self.raise_syntax_error(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <packaging._tokenizer.Tokenizer object at 0x705ba3c26bc0>
+message = 'Expected matching RIGHT_PARENTHESIS for LEFT_PARENTHESIS, after version specifier'
+span_start = 2, span_end = None
+
+    def raise_syntax_error(
+        self,
+        message: str,
+        *,
+        span_start: int | None = None,
+        span_end: int | None = None,
+    ) -> NoReturn:
+        """Raise ParserSyntaxError at the given position."""
+        span = (
+            self.position if span_start is None else span_start,
+            self.position if span_end is None else span_end,
+        )
+>       raise ParserSyntaxError(
+            message,
+            source=self.source,
+            span=span,
+        )
+E       packaging._tokenizer.ParserSyntaxError: Expected matching RIGHT_PARENTHESIS for LEFT_PARENTHESIS, after version specifier
+E           x (===0,>= 0)
+E             ~~~~~~~~~^
+
+.venv/lib/python3.12/site-packages/packaging/_tokenizer.py:171: ParserSyntaxError
+
+The above exception was the direct cause of the following exception:
+
+text = 'x (===0,>= 0)'
+
+    @pytest.mark.parametrize("text", SPEC_VALID)
+    def test_finding_001_spec_valid_requirements_parse(text):
+>       req = Requirement(text)
+              ^^^^^^^^^^^^^^^^^
+
+harness/test_finding_001.py:21: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[AttributeError("'Requirement' object has no attribute 'name'") raised in repr()] Requirement object at 0x705ba3d9b150>
+requirement_string = 'x (===0,>= 0)'
+
+    def __init__(self, requirement_string: str) -> None:
+        try:
+            parsed = _parse_requirement(requirement_string)
+        except ParserSyntaxError as e:
+>           raise InvalidRequirement(str(e)) from e
+E           packaging.requirements.InvalidRequirement: Expected matching RIGHT_PARENTHESIS for LEFT_PARENTHESIS, after version specifier
+E               x (===0,>= 0)
+E                 ~~~~~~~~~^
+
+.venv/lib/python3.12/site-packages/packaging/requirements.py:104: InvalidRequirement
+_ test_finding_001_spec_valid_requirements_parse[x===0,>= 0; python_version>'3'] _
+
+self = <[AttributeError("'Requirement' object has no attribute 'name'") raised in repr()] Requirement object at 0x705ba3d9b7e0>
+requirement_string = "x===0,>= 0; python_version>'3'"
+
+    def __init__(self, requirement_string: str) -> None:
+        try:
+>           parsed = _parse_requirement(requirement_string)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.venv/lib/python3.12/site-packages/packaging/requirements.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.12/site-packages/packaging/_parser.py:107: in parse_requirement
+    return _parse_requirement(Tokenizer(source, rules=DEFAULT_RULES))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/packaging/_parser.py:125: in _parse_requirement
+    url, specifier, marker = _parse_requirement_details(tokenizer)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/packaging/_parser.py:171: in _parse_requirement_details
+    marker = _parse_requirement_marker(
+.venv/lib/python3.12/site-packages/packaging/_parser.py:192: in _parse_requirement_marker
+    tokenizer.raise_syntax_error(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <packaging._tokenizer.Tokenizer object at 0x705ba3afebc0>
+message = 'Expected comma (within version specifier), semicolon (after version specifier) or end'
+span_start = 1, span_end = None
+
+    def raise_syntax_error(
+        self,
+        message: str,
+        *,
+        span_start: int | None = None,
+        span_end: int | None = None,
+    ) -> NoReturn:
+        """Raise ParserSyntaxError at the given position."""
+        span = (
+            self.position if span_start is None else span_start,
+            self.position if span_end is None else span_end,
+        )
+>       raise ParserSyntaxError(
+            message,
+            source=self.source,
+            span=span,
+        )
+E       packaging._tokenizer.ParserSyntaxError: Expected comma (within version specifier), semicolon (after version specifier) or end
+E           x===0,>= 0; python_version>'3'
+E            ~~~~~~~~^
+
+.venv/lib/python3.12/site-packages/packaging/_tokenizer.py:171: ParserSyntaxError
+
+The above exception was the direct cause of the following exception:
+
+text = "x===0,>= 0; python_version>'3'"
+
+    @pytest.mark.parametrize("text", SPEC_VALID)
+    def test_finding_001_spec_valid_requirements_parse(text):
+>       req = Requirement(text)
+              ^^^^^^^^^^^^^^^^^
+
+harness/test_finding_001.py:21: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[AttributeError("'Requirement' object has no attribute 'name'") raised in repr()] Requirement object at 0x705ba3d9b7e0>
+requirement_string = "x===0,>= 0; python_version>'3'"
+
+    def __init__(self, requirement_string: str) -> None:
+        try:
+            parsed = _parse_requirement(requirement_string)
+        except ParserSyntaxError as e:
+>           raise InvalidRequirement(str(e)) from e
+E           packaging.requirements.InvalidRequirement: Expected comma (within version specifier), semicolon (after version specifier) or end
+E               x===0,>= 0; python_version>'3'
+E                ~~~~~~~~^
+
+.venv/lib/python3.12/site-packages/packaging/requirements.py:104: InvalidRequirement
+_____________________ test_finding_002_bool_epoch_rejected _____________________
+
+    def test_finding_002_bool_epoch_rejected():
+>       with pytest.raises(InvalidVersion):
+E       Failed: DID NOT RAISE InvalidVersion
+
+harness/test_finding_002.py:11: Failed
+____________________ test_finding_002_bool_release_rejected ____________________
+
+    def test_finding_002_bool_release_rejected():
+>       with pytest.raises(InvalidVersion):
+E       Failed: DID NOT RAISE InvalidVersion
+
+harness/test_finding_002.py:16: Failed
+__________________ test_finding_002_bool_pre_number_rejected ___________________
+
+    def test_finding_002_bool_pre_number_rejected():
+>       with pytest.raises(InvalidVersion):
+E       Failed: DID NOT RAISE InvalidVersion
+
+harness/test_finding_002.py:21: Failed
+=========================== short test summary info ============================
+FAILED harness/test_finding_001.py::test_finding_001_spec_valid_requirements_parse[x===0,>= 0]
+FAILED harness/test_finding_001.py::test_finding_001_spec_valid_requirements_parse[x===0, >=0]
+FAILED harness/test_finding_001.py::test_finding_001_spec_valid_requirements_parse[x===0,!= 1.0]
+FAILED harness/test_finding_001.py::test_finding_001_spec_valid_requirements_parse[x===0,< 2]
+FAILED harness/test_finding_001.py::test_finding_001_spec_valid_requirements_parse[x (===0,>= 0)]
+FAILED harness/test_finding_001.py::test_finding_001_spec_valid_requirements_parse[x===0,>= 0; python_version>'3']
+FAILED harness/test_finding_002.py::test_finding_002_bool_epoch_rejected - Fa...
+FAILED harness/test_finding_002.py::test_finding_002_bool_release_rejected - ...
+FAILED harness/test_finding_002.py::test_finding_002_bool_pre_number_rejected
+9 failed, 43 passed in 354.96s (0:05:54)
+exit=1

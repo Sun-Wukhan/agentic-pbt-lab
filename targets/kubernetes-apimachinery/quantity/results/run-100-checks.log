@@ -1,0 +1,59 @@
+=== RUN   TestPBTQuantityJSONRoundTrip
+    pbt_quantity_test.go:168: [rapid] OK, passed 100 tests (749.063µs)
+--- PASS: TestPBTQuantityJSONRoundTrip (0.00s)
+=== RUN   TestPBTQuantityJSONBareNumbersAndNull
+    pbt_quantity_test.go:207: [rapid] OK, passed 100 tests (840.901µs)
+--- PASS: TestPBTQuantityJSONBareNumbersAndNull (0.00s)
+=== RUN   TestPBTQuantityUnmarshalNeverPanics
+    pbt_quantity_test.go:250: [rapid] OK, passed 100 tests (294.722µs)
+--- PASS: TestPBTQuantityUnmarshalNeverPanics (0.00s)
+=== RUN   TestPBTQuantityProtoRoundTrip
+    pbt_quantity_test.go:265: [rapid] OK, passed 100 tests (569.514µs)
+--- PASS: TestPBTQuantityProtoRoundTrip (0.00s)
+=== RUN   TestPBTQuantityCBORRoundTrip
+    pbt_quantity_test.go:293: [rapid] OK, passed 100 tests (759.019µs)
+--- PASS: TestPBTQuantityCBORRoundTrip (0.00s)
+=== RUN   TestPBTQuantityDecModelEquivalence
+    pbt_quantity_test.go:324: [rapid] OK, passed 100 tests (785.969µs)
+--- PASS: TestPBTQuantityDecModelEquivalence (0.00s)
+=== RUN   TestPBTQuantityCmpInt64Consistent
+    pbt_quantity_test.go:346: [rapid] OK, passed 100 tests (368.082µs)
+--- PASS: TestPBTQuantityCmpInt64Consistent (0.00s)
+=== RUN   TestPBTQuantityMulExact
+    pbt_quantity_test.go:359: [rapid] OK, passed 100 tests (673.28µs)
+--- PASS: TestPBTQuantityMulExact (0.00s)
+=== RUN   TestPBTQuantityNegAlgebra
+    pbt_quantity_test.go:390: [rapid] OK, passed 100 tests (703.425µs)
+--- PASS: TestPBTQuantityNegAlgebra (0.00s)
+=== RUN   TestPBTQuantityRoundUpContract
+    pbt_quantity_test.go:426: [rapid] OK, passed 100 tests (417.456µs)
+--- PASS: TestPBTQuantityRoundUpContract (0.00s)
+=== RUN   TestPBTQuantityFormatRerender
+    pbt_quantity_test.go:457: [rapid] OK, passed 100 tests (645.468µs)
+--- PASS: TestPBTQuantityFormatRerender (0.00s)
+=== RUN   TestPBTQuantityCanonicalizeConstructed
+    pbt_quantity_test.go:482: [rapid] OK, passed 100 tests (1.088853ms)
+--- PASS: TestPBTQuantityCanonicalizeConstructed (0.00s)
+=== RUN   TestPBTQuantityCopyIndependence
+    pbt_quantity_test.go:523: [rapid] OK, passed 100 tests (2.600331ms)
+--- PASS: TestPBTQuantityCopyIndependence (0.00s)
+=== RUN   TestPBTQuantityZeroValueAndFormatAdoption
+    pbt_quantity_test.go:562: [rapid] OK, passed 100 tests (323.375µs)
+--- PASS: TestPBTQuantityZeroValueAndFormatAdoption (0.00s)
+=== RUN   TestPBTQuantityFloat64SlowExact
+    pbt_quantity_test.go:592: [rapid] OK, passed 100 tests (500.27µs)
+--- PASS: TestPBTQuantityFloat64SlowExact (0.00s)
+=== RUN   TestPBTQuantityExtremeScales
+    pbt_quantity_test.go:616: [rapid] OK, passed 100 tests (141.372µs)
+--- PASS: TestPBTQuantityExtremeScales (0.00s)
+=== RUN   TestPBTQuantityExponentRange
+    pbt_quantity_test.go:651: [rapid] failed after 0 tests: ParseQuantity("1e4294967296") silently accepted with wrapped value "1e4294967296"; exponents outside int32 range must error
+        To reproduce, specify -run="TestPBTQuantityExponentRange" -rapid.failfile="testdata/rapid/TestPBTQuantityExponentRange/TestPBTQuantityExponentRange-20261107150946-16465.fail" (or -rapid.seed=8566895824090555038)
+        Failed test output:
+    pbt_quantity_test.go:654: [rapid] draw k: 4294967296
+    pbt_quantity_test.go:655: [rapid] draw negative: false
+    pbt_quantity_test.go:661: ParseQuantity("1e4294967296") silently accepted with wrapped value "1e4294967296"; exponents outside int32 range must error
+--- FAIL: TestPBTQuantityExponentRange (0.00s)
+FAIL
+FAIL	pbtlab/quantity	0.017s
+FAIL

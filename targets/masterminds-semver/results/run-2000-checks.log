@@ -1,0 +1,69 @@
+>> running property tests with -rapid.checks=2000
+=== RUN   TestPBTConstraintsNeverPanic
+    pbt_constraints_test.go:69: [rapid] OK, passed 2000 tests (64.978988ms)
+--- PASS: TestPBTConstraintsNeverPanic (0.07s)
+=== RUN   TestPBTCheckValidateAgree
+    pbt_constraints_test.go:85: [rapid] OK, passed 2000 tests (206.869363ms)
+--- PASS: TestPBTCheckValidateAgree (0.21s)
+=== RUN   TestPBTBasicOpsFollowCompare
+    pbt_constraints_test.go:134: [rapid] OK, passed 2000 tests (106.022543ms)
+--- PASS: TestPBTBasicOpsFollowCompare (0.11s)
+=== RUN   TestPBTRangeEquivalences
+    pbt_constraints_test.go:158: [rapid] OK, passed 2000 tests (92.595723ms)
+--- PASS: TestPBTRangeEquivalences (0.09s)
+=== RUN   TestPBTBoundarySelfConsistency
+    pbt_constraints_test.go:209: [rapid] OK, passed 2000 tests (307.278545ms)
+--- PASS: TestPBTBoundarySelfConsistency (0.31s)
+=== RUN   TestPBTConstraintStringRoundTrip
+    pbt_constraints_test.go:227: [rapid] OK, passed 2000 tests (185.101811ms)
+--- PASS: TestPBTConstraintStringRoundTrip (0.19s)
+=== RUN   TestPBTConstraintComposition
+    pbt_constraints_test.go:250: [rapid] OK, passed 2000 tests (217.513349ms)
+--- PASS: TestPBTConstraintComposition (0.22s)
+=== RUN   TestPBTIncludePrerelease
+    pbt_constraints_test.go:281: [rapid] OK, passed 2000 tests (99.755152ms)
+--- PASS: TestPBTIncludePrerelease (0.10s)
+=== RUN   TestPBTStrictStringRoundTrip
+    pbt_version_test.go:20: [rapid] OK, passed 2000 tests (22.799419ms)
+--- PASS: TestPBTStrictStringRoundTrip (0.02s)
+=== RUN   TestPBTStrictAndNewAgree
+    pbt_version_test.go:48: [rapid] OK, passed 2000 tests (60.015262ms)
+--- PASS: TestPBTStrictAndNewAgree (0.06s)
+=== RUN   TestPBTNewVersionCoercion
+    pbt_version_test.go:63: [rapid] OK, passed 2000 tests (29.419929ms)
+--- PASS: TestPBTNewVersionCoercion (0.03s)
+=== RUN   TestPBTParsersNeverPanic
+    pbt_version_test.go:131: [rapid] OK, passed 2000 tests (9.887512ms)
+--- PASS: TestPBTParsersNeverPanic (0.01s)
+=== RUN   TestPBTStrictRejectsInvalid
+    pbt_version_test.go:143: [rapid] OK, passed 2000 tests (16.778697ms)
+--- PASS: TestPBTStrictRejectsInvalid (0.02s)
+=== RUN   TestPBTCompareConsistency
+    pbt_version_test.go:168: [rapid] OK, passed 2000 tests (70.790635ms)
+--- PASS: TestPBTCompareConsistency (0.07s)
+=== RUN   TestPBTCompareTransitive
+    pbt_version_test.go:198: [rapid] OK, passed 2000 tests (94.955453ms)
+--- PASS: TestPBTCompareTransitive (0.10s)
+=== RUN   TestPBTCompareMatchesSpecModel
+    pbt_version_test.go:216: [rapid] OK, passed 2000 tests (75.814412ms)
+--- PASS: TestPBTCompareMatchesSpecModel (0.08s)
+=== RUN   TestPBTMetadataIgnoredInCompare
+    pbt_version_test.go:242: [rapid] OK, passed 2000 tests (45.193219ms)
+--- PASS: TestPBTMetadataIgnoredInCompare (0.05s)
+=== RUN   TestPBTIncSemantics
+    pbt_version_test.go:265: [rapid] OK, passed 2000 tests (57.282813ms)
+--- PASS: TestPBTIncSemantics (0.06s)
+=== RUN   TestPBTIncPanicsOnOverflow
+    pbt_version_test.go:331: [rapid] OK, passed 2000 tests (5.729514ms)
+--- PASS: TestPBTIncPanicsOnOverflow (0.01s)
+=== RUN   TestPBTSetPreMeta
+    pbt_version_test.go:373: [rapid] OK, passed 2000 tests (36.635162ms)
+--- PASS: TestPBTSetPreMeta (0.04s)
+=== RUN   TestPBTMarshalRoundTrips
+    pbt_version_test.go:405: [rapid] OK, passed 2000 tests (77.182844ms)
+--- PASS: TestPBTMarshalRoundTrips (0.08s)
+=== RUN   TestPBTCollectionSort
+    pbt_version_test.go:437: [rapid] OK, passed 2000 tests (198.294791ms)
+--- PASS: TestPBTCollectionSort (0.20s)
+PASS
+ok  	pbt/semver	2.094s
