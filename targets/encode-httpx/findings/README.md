@@ -51,5 +51,5 @@ raised as a "Potential Issue" discussion with its tested fix branch linked:
 - 002+003 (IDNA `.host`): https://github.com/encode/httpx/discussions/3818 — branch `fix/url-host-idna-labels`
 - 004 (dot segments): https://github.com/encode/httpx/discussions/3819 — branch `fix/url-normalize-path-rfc`
 - 005 (leading colon): https://github.com/encode/httpx/discussions/3820 — branch `fix/url-leading-colon`
-- 006 (`Headers.__len__`): discussion filed the same day (number in lab README scoreboard).
+- 006 (`Headers.__len__`): https://github.com/encode/httpx/discussions/3821 (no fix branch; one-line fix offered)
 - 007 (`URL.join`): not a bug — delegates to `urllib.parse.urljoin` by construction; not filed.
