@@ -11,7 +11,10 @@ every `TestPBT*` property.
 Surfaces, in priority order: `net/art` (routing table vs a brute-force
 longest-prefix-match model), `net/packet` + `wgengine/filter` (packet
 codecs and ACL match decisions), `disco` + `derp` (message/frame codecs),
-`util/dnsname`, and `util/cmpver`.
+`util/dnsname`, and `util/cmpver`. Wave 2 (below) adds `tka` (tailnet
+key authority: AUM codecs, the signed-update state machine, checkpoints,
+disablement, node-key authorization) and `types/key` (key text/binary
+round-trips and parser robustness).
 
 | # | Property (invariant) | Source (file/doc it was inferred from) | Test |
 |---|----------------------|------------------------------------------|------|
@@ -42,6 +45,60 @@ codecs and ACL match decisions), `disco` + `derp` (message/frame codecs),
 | C2 | `Compare` induces a total order: transitivity over generated triples, including equality | `util/cmpver/version.go` package doc (pairwise field comparison determines ordering) | `TestPBTCmpverTransitivity` |
 | C3 | For dotted-numeric versions, `Compare` agrees with an independent model: component-wise big-integer comparison, and if all shared components are equal the version with more components is greater | `util/cmpver/version.go` package doc + `Less` doc note: "12" is less than "12.0" | `TestPBTCmpverDottedNumericModel` |
 
+## Wave 2 — tka (tailnet key authority) + types/key
+
+Same pinned commit, same harness module. The tka surface is exercised
+entirely through exported API: `tka.Create` / `Bootstrap` / `Open`,
+`Authority.Inform`, `UpdateBuilder` (`Authority.NewUpdater`), `tka.Mem`
+(in-memory Chonk), and a harness `tka.Signer` that mirrors
+`key.TLPrivate.SignAUM` (for a Key25519 key, the KeyID is the ed25519
+public key). Test keys are derived deterministically from rapid-drawn
+seeds via `ed25519.NewKeyFromSeed`. The package's own test helpers
+(`chaintest_test.go` etc.) are `_test.go` files inside package tka and
+cannot be imported, so the harness re-implements the small pieces it
+needs. `Authority.Keys()` / `KeyTrusted()` / `Head()` / `StateIDs()` /
+`ValidDisablement()` serve as the model oracle.
+
+| # | Property (invariant) | Source (file/doc it was inferred from) | Test |
+|---|----------------------|------------------------------------------|------|
+| T1 | `AUM.Serialize` → `Unserialize` is the identity for generated valid AUMs of every kind (AddKey/RemoveKey/UpdateKey/Checkpoint/NoOp, with/without parent, 0–2 signatures); re-serialization is byte-stable, so `Hash` is stable | `tka/aum.go` `Serialize`/`Unserialize` (CBOR CTAP2, deterministic because signatures are over the serialization) + per-kind field rules in `StaticValidate` | `TestPBTTKAAUMRoundTrip` |
+| T2 | `AUM.Unserialize` never panics on arbitrary bytes or on truncations/mutations/extensions of valid AUMs; decoded+statically-valid AUMs survive `Hash`/`SigHash`/`Serialize`/`Weight` | `tka/aum.go` `Unserialize` + `tka/tka.go` strict CBOR decoder settings (AUMs are parsed from untrusted peers during sync); complements upstream `FuzzAUMUnserializeValidate` | `TestPBTTKAAUMUnserializeNeverPanics` |
+| T3 | Over random sequences of validly-signed AddKey/RemoveKey/SetKeyVote/SetKeyMeta updates applied via `UpdateBuilder` + `Inform`, the authority never panics, `Head()` is the last applied AUM's hash, and the key set (IDs, votes, meta) exactly matches a simple model; removed keys are no longer trusted | `tka/state.go` `applyVerifiedAUM` per-kind semantics; `tka/builder.go` `UpdateBuilder`; `tka/tka.go` `aumVerify` (incl. "cannot remove the last key") and `Inform` | `TestPBTTKAStateMachineModel` |
+| T4 | Signature verification negatives: a valid builder update is accepted, but the same update with a flipped signature byte, a signature from an untrusted key, stripped signatures, or content changed after signing is rejected by `Inform`; re-signing with a different *trusted* key is accepted | `tka/tka.go` `aumVerify` + `tka/verify.go` `signatureVerify` (signatures verified against keys in the pre-update state) | `TestPBTTKASignatureNegatives` |
+| T5 | Any single-byte mutation of a serialized signed update is rejected (at decode or at `Inform`), unless it decodes to the identical AUM | `tka/aum.go` `SigHash` (signature covers all fields except Signatures) + `aumVerify` | `TestPBTTKASerializedMutationRejected` |
+| T6 | Checkpoint/genesis behaviour: a `Create` genesis (checkpoint AUM) bootstraps a fresh authority with identical head/keys/state IDs; tampered checkpoints (state edited after signing, flipped signature, extra key smuggled into state, stripped signatures, signed by a key the state does not trust) are rejected by `Bootstrap`; `Finalize` appends a checkpoint to the update that brings the count since the last checkpoint to 50 (`checkpointEvery`), and that checkpoint alone bootstraps an equivalent authority | `tka/tka.go` `Create`/`Bootstrap` (bootstrap AUMs must be checkpoints, verified against their own state); `tka/builder.go` `Finalize`/`generateCheckpoint` + `checkpointEvery = 50` (pending updates count toward the interval — see findings/003) | `TestPBTTKACheckpointBootstrap` |
+| T7 | `Authority.ValidDisablement` accepts exactly the secrets whose `DisablementKDF` values are in state, and rejects other secrets and one-byte mutations of the right secret; KDF values for distinct secrets differ | `tka/state.go` `DisablementKDF`/`checkDisablement` docs; `tka/tka.go` `ValidDisablement` | `TestPBTTKADisablement` |
+| T8 | `Inform` is idempotent: re-informing the same batch or an already-applied prefix succeeds and leaves head and keys unchanged; `Open` on the same storage recovers the same head and key count | `tka/tka.go` `InformIdempotent` doc ("If the set of updates is a chain building from the current head...") + `Open`/`computeActiveChain` | `TestPBTTKAInformIdempotent` |
+| T9 | `Authority.NodeKeyAuthorized` accepts a `SigDirect` `NodeKeySignature` signed by a trusted key for its node key, and rejects the same signature with a flipped byte, presented for a different node key, or signed by an untrusted key | `tka/sig.go` `NodeKeySignature`/`verifySignature` (SigDirect: signature over SigHash by the TKA key named by KeyID, Pubkey must equal the node key's binary form); `tka/tka.go` `NodeKeyAuthorized` | `TestPBTTKANodeKeyAuthorized` |
+| T10 | `NodeKeySignature.Serialize` → `Unserialize` round-trips generated shapes (direct, credential, rotation nested 0–2 deep); `Unserialize` never panics on arbitrary bytes | `tka/sig.go` `Serialize`/`Unserialize`; complements upstream `FuzzNodeKeySignatureUnserialize` | `TestPBTTKANKSRoundTripNoPanic` |
+| T11 | `AUMHash` text form (base32, no padding) round-trips via `MarshalText`/`UnmarshalText` and agrees with `String()`; garbage text is rejected or ignored without panicking | `tka/aum.go` `AUMHash.MarshalText`/`UnmarshalText`/`String` | `TestPBTTKAAUMHashTextRoundTrip` |
+| K1 | `types/key` text round-trips: NodePrivate/NodePublic, MachinePrivate/MachinePublic, DiscoPublic and TLPrivate/TLPublic (including the `tlpub:` CLI form) survive MarshalText → UnmarshalText unchanged; `Public()` is deterministic and survives the private key's own round-trip; NodePublic MarshalBinary round-trips; Disco `Shared()` is symmetric (X25519 agreement); TL KeyIDs agree across `TLPrivate.KeyID`, `TLPublic.KeyID` and `tka.Key.ID` | `types/key/node.go`, `machine.go`, `disco.go`, `tl.go` Marshal/Unmarshal implementations and prefix constants; `tl.go` `KeyID` comment (KeyID is the ed25519 public) | `TestPBTKeyTextRoundTrips` |
+| K2 | Key parsers never panic on arbitrary or mutated input; anything a parser accepts re-marshals to a stable form that re-parses to an equal key (canonical acceptance) | `types/key/util.go` `parseHex` (prefix + fixed-length hex contract) | `TestPBTKeyParsersNeverPanic` |
+| K3 | Public-key text parsers reject each other's prefixes (`nodekey:` ≠ `mkey:` ≠ `discokey:` ≠ `nlpub:`), while each accepts its own | `types/key` per-type hex prefix constants (`nodePublicHexPrefix`, `machinePublicHexPrefix`, `discoPublicHexPrefix`, `tlPublicHexPrefix`) | `TestPBTKeyCrossPrefixRejection` |
+
+### Wave 2 limits (intractable in a standalone harness)
+
+- **Fork resolution** (`pickNextAUM`/`advanceByPrimary` weight-based
+  branch choice) is not modelled: constructing meaningful forks needs
+  competing signed chains plus sync offers, and the "correct" winner
+  depends on signature weights computed over states the harness would
+  have to reimplement. Out of scope for this wave.
+- **Sync** (`SyncOffer`/`MissingAUMs`) and **compaction**
+  (`Authority.Compact`, `MakeRetroactiveRevocation`) need multi-authority
+  storage topologies; not covered. `Inform`/`Open` exercise the shared
+  chain-recomputation code paths they build on.
+- **SigRotation / SigCredential NKS chains** are only round-tripped
+  (T10), not verified end-to-end: `NodeKeyAuthorized` verification of
+  rotations needs wrapped auth keys via `SignByCredential` and node-key
+  rotation flows that live in `ipn/ipnlocal`, outside a pure harness.
+- **DERP-style storage backends** for Chonk (the filesystem `ChonkDir`)
+  are not exercised; `tka.Mem` covers the `Chonk` interface semantics
+  the state machine depends on.
+- `DisablementKDF` is argon2 (~120ms/call on this box) and
+  `ValidDisablement` runs it per call, so T7 uses secret/value pairs
+  precomputed once per test binary and exactly three `ValidDisablement`
+  calls per check. T7 dominates the checks=2000 runtime.
+
 ## Notes
 
 - ART generators draw addresses from small pools (one IPv4 /8-ish space
@@ -65,3 +122,10 @@ codecs and ACL match decisions), `disco` + `derp` (message/frame codecs),
 - Results: checks=100 — all 26 properties pass (one harness-artifact
   counterexample during bring-up, findings/001). checks=2000 long run —
   see `results/checks-2000.log` and the README scoreboard.
+- Wave 2 results: 14 new properties (T1–T11, K1–K3; 40 total). All pass
+  at checks=100 and checks=2000 — see `results/checks-100-wave2.log` and
+  `results/checks-2000-wave2.log`. Two counterexamples during bring-up,
+  both harness-side: a generator key collision that made the "untrusted"
+  key secretly trusted (findings/002) and an off-by-one in the harness's
+  model of when `Finalize` appends a checkpoint (findings/003). No
+  confirmed upstream bugs.

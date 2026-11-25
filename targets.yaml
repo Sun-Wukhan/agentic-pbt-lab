@@ -129,8 +129,8 @@ wave5:  # flagship Go networking (added 2026-11-25)
     lang: go
     framework: rapid
     version: "tailscale main @ 445df50dcf76b6172dc4688c2097c47878f41641, Go 1.27.4 toolchain, rapid v1.2.0"
-    surfaces: [net/art routing table vs brute-force LPM model, net/packet decode/encode round-trips and no-panic, wgengine/filter Check vs reference model, disco message codec round-trips, derp frame header reader, util/dnsname validation invariants, util/cmpver ordering vs independent model]
-    status: triaged (26 properties; all pass at 100 + 2,000 checks; 1 counterexample during bring-up = harness artifact, localNets=nil in the filter setup, findings/001; 0 confirmed bugs, nothing filed)
+    surfaces: [net/art routing table vs brute-force LPM model, net/packet decode/encode round-trips and no-panic, wgengine/filter Check vs reference model, disco message codec round-trips, derp frame header reader, util/dnsname validation invariants, util/cmpver ordering vs independent model, "wave 2: tka AUM CBOR round-trips and no-panic decode, signed-update state machine vs model, signature-verification negatives, checkpoint/bootstrap + tamper rejection, disablement KDF, NodeKeyAuthorized, types/key text/binary round-trips and parser robustness"]
+    status: triaged (40 properties — wave 1: 26, wave 2: 14 tka/types-key; all pass at 100 + 2,000 checks in both waves; 3 counterexamples, all during bring-up and all harness-side: findings/001 filter localNets=nil, findings/002 tka untrusted-key generator collision, findings/003 checkpoint-interval model off-by-one; 0 confirmed bugs, nothing filed)
 
 excluded:
   - repo: openbao/openbao

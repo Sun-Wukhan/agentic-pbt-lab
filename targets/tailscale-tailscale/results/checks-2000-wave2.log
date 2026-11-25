@@ -1,0 +1,123 @@
+>> running property tests with -rapid.checks=2000
+=== RUN   TestPBTArtSingleInsertGet
+    art_test.go:88: [rapid] OK, passed 2000 tests (79.17342ms)
+--- PASS: TestPBTArtSingleInsertGet (0.08s)
+=== RUN   TestPBTArtModelVsSequence
+    art_test.go:104: [rapid] OK, passed 2000 tests (433.777643ms)
+--- PASS: TestPBTArtModelVsSequence (0.43s)
+=== RUN   TestPBTArtOverwriteLastWins
+    art_test.go:131: [rapid] OK, passed 2000 tests (68.994311ms)
+--- PASS: TestPBTArtOverwriteLastWins (0.07s)
+=== RUN   TestPBTArtInsertMasksPrefix
+    art_test.go:148: [rapid] OK, passed 2000 tests (36.88682ms)
+--- PASS: TestPBTArtInsertMasksPrefix (0.04s)
+=== RUN   TestPBTArtFamilyIsolation
+    art_test.go:166: [rapid] OK, passed 2000 tests (97.110625ms)
+--- PASS: TestPBTArtFamilyIsolation (0.10s)
+=== RUN   TestPBTDiscoPingRoundTrip
+    codec_dns_cmpver_test.go:33: [rapid] OK, passed 2000 tests (51.760491ms)
+--- PASS: TestPBTDiscoPingRoundTrip (0.05s)
+=== RUN   TestPBTDiscoPongRoundTrip
+    codec_dns_cmpver_test.go:54: [rapid] OK, passed 2000 tests (10.927682ms)
+--- PASS: TestPBTDiscoPongRoundTrip (0.01s)
+=== RUN   TestPBTDiscoCallMeMaybeRoundTrip
+    codec_dns_cmpver_test.go:77: [rapid] OK, passed 2000 tests (13.484247ms)
+--- PASS: TestPBTDiscoCallMeMaybeRoundTrip (0.01s)
+=== RUN   TestPBTDiscoParseNeverPanics
+    codec_dns_cmpver_test.go:107: [rapid] OK, passed 2000 tests (15.324186ms)
+--- PASS: TestPBTDiscoParseNeverPanics (0.02s)
+=== RUN   TestPBTDerpFrameHeaderRoundTrip
+    codec_dns_cmpver_test.go:123: [rapid] OK, passed 2000 tests (5.486279ms)
+--- PASS: TestPBTDerpFrameHeaderRoundTrip (0.01s)
+=== RUN   TestPBTDerpFrameHeaderNeverPanics
+    codec_dns_cmpver_test.go:143: [rapid] OK, passed 2000 tests (6.935183ms)
+--- PASS: TestPBTDerpFrameHeaderNeverPanics (0.01s)
+=== RUN   TestPBTDnsnameToFQDNFixedPoint
+    codec_dns_cmpver_test.go:164: [rapid] OK, passed 2000 tests (59.564105ms)
+--- PASS: TestPBTDnsnameToFQDNFixedPoint (0.06s)
+=== RUN   TestPBTDnsnameToFQDNRejects
+    codec_dns_cmpver_test.go:206: [rapid] OK, passed 2000 tests (4.643956ms)
+--- PASS: TestPBTDnsnameToFQDNRejects (0.00s)
+=== RUN   TestPBTDnsnameSanitizeLabel
+    codec_dns_cmpver_test.go:233: [rapid] OK, passed 2000 tests (4.257115ms)
+--- PASS: TestPBTDnsnameSanitizeLabel (0.00s)
+=== RUN   TestPBTDnsnameParentContains
+    codec_dns_cmpver_test.go:253: [rapid] OK, passed 2000 tests (11.723545ms)
+--- PASS: TestPBTDnsnameParentContains (0.01s)
+=== RUN   TestPBTCmpverAntisymmetry
+    codec_dns_cmpver_test.go:307: [rapid] OK, passed 2000 tests (15.238137ms)
+--- PASS: TestPBTCmpverAntisymmetry (0.02s)
+=== RUN   TestPBTCmpverTransitivity
+    codec_dns_cmpver_test.go:324: [rapid] OK, passed 2000 tests (53.915313ms)
+--- PASS: TestPBTCmpverTransitivity (0.05s)
+=== RUN   TestPBTCmpverDottedNumericModel
+    codec_dns_cmpver_test.go:344: [rapid] OK, passed 2000 tests (29.002524ms)
+--- PASS: TestPBTCmpverDottedNumericModel (0.03s)
+=== RUN   TestPBTKeyTextRoundTrips
+    key_test.go:36: [rapid] OK, passed 2000 tests (3.859374822s)
+--- PASS: TestPBTKeyTextRoundTrips (3.86s)
+=== RUN   TestPBTKeyParsersNeverPanic
+    key_test.go:192: [rapid] OK, passed 2000 tests (22.402173ms)
+--- PASS: TestPBTKeyParsersNeverPanic (0.02s)
+=== RUN   TestPBTKeyCrossPrefixRejection
+    key_test.go:297: [rapid] OK, passed 2000 tests (132.528802ms)
+--- PASS: TestPBTKeyCrossPrefixRejection (0.13s)
+=== RUN   TestPBTPacketDecodeNeverPanics
+    packet_filter_test.go:18: [rapid] OK, passed 2000 tests (3.688983ms)
+--- PASS: TestPBTPacketDecodeNeverPanics (0.00s)
+=== RUN   TestPBTPacketDecodeTruncationsNeverPanic
+    packet_filter_test.go:28: [rapid] OK, passed 2000 tests (42.110185ms)
+--- PASS: TestPBTPacketDecodeTruncationsNeverPanic (0.04s)
+=== RUN   TestPBTPacketUDP4RoundTrip
+    packet_filter_test.go:51: [rapid] OK, passed 2000 tests (9.970285ms)
+--- PASS: TestPBTPacketUDP4RoundTrip (0.01s)
+=== RUN   TestPBTPacketIP4RoundTrip
+    packet_filter_test.go:79: [rapid] OK, passed 2000 tests (9.456585ms)
+--- PASS: TestPBTPacketIP4RoundTrip (0.01s)
+=== RUN   TestPBTPacketDecodeDeterministic
+    packet_filter_test.go:96: [rapid] OK, passed 2000 tests (3.689054ms)
+--- PASS: TestPBTPacketDecodeDeterministic (0.00s)
+=== RUN   TestPBTFilterCheckVsModel
+    packet_filter_test.go:173: [rapid] OK, passed 2000 tests (32.499368ms)
+--- PASS: TestPBTFilterCheckVsModel (0.03s)
+=== RUN   TestPBTFilterEmptyDropsAll
+    packet_filter_test.go:197: [rapid] OK, passed 2000 tests (44.655192ms)
+--- PASS: TestPBTFilterEmptyDropsAll (0.04s)
+=== RUN   TestPBTFilterMismatchedFamiliesDrop
+    packet_filter_test.go:211: [rapid] OK, passed 2000 tests (17.403375ms)
+--- PASS: TestPBTFilterMismatchedFamiliesDrop (0.02s)
+=== RUN   TestPBTTKAAUMRoundTrip
+    tka_test.go:225: [rapid] OK, passed 2000 tests (124.68745ms)
+--- PASS: TestPBTTKAAUMRoundTrip (0.12s)
+=== RUN   TestPBTTKAAUMUnserializeNeverPanics
+    tka_test.go:251: [rapid] OK, passed 2000 tests (72.61345ms)
+--- PASS: TestPBTTKAAUMUnserializeNeverPanics (0.07s)
+=== RUN   TestPBTTKAStateMachineModel
+    tka_test.go:332: [rapid] OK, passed 2000 tests (2.14235148s)
+--- PASS: TestPBTTKAStateMachineModel (2.14s)
+=== RUN   TestPBTTKASignatureNegatives
+    tka_test.go:470: [rapid] OK, passed 2000 tests (6.556763555s)
+--- PASS: TestPBTTKASignatureNegatives (6.56s)
+=== RUN   TestPBTTKASerializedMutationRejected
+    tka_test.go:571: [rapid] OK, passed 2000 tests (1.584668971s)
+--- PASS: TestPBTTKASerializedMutationRejected (1.58s)
+=== RUN   TestPBTTKACheckpointBootstrap
+    tka_test.go:602: [rapid] OK, passed 2000 tests (36.200375965s)
+--- PASS: TestPBTTKACheckpointBootstrap (36.20s)
+=== RUN   TestPBTTKADisablement
+    tka_test.go:752: [rapid] OK, passed 2000 tests (8m35.815237218s)
+--- PASS: TestPBTTKADisablement (515.84s)
+=== RUN   TestPBTTKAInformIdempotent
+    tka_test.go:800: [rapid] OK, passed 2000 tests (2.502251348s)
+--- PASS: TestPBTTKAInformIdempotent (2.50s)
+=== RUN   TestPBTTKANodeKeyAuthorized
+    tka_test.go:870: [rapid] OK, passed 2000 tests (2.06096422s)
+--- PASS: TestPBTTKANodeKeyAuthorized (2.06s)
+=== RUN   TestPBTTKANKSRoundTripNoPanic
+    tka_test.go:934: [rapid] OK, passed 2000 tests (146.066178ms)
+--- PASS: TestPBTTKANKSRoundTripNoPanic (0.15s)
+=== RUN   TestPBTTKAAUMHashTextRoundTrip
+    tka_test.go:987: [rapid] OK, passed 2000 tests (47.272268ms)
+--- PASS: TestPBTTKAAUMHashTextRoundTrip (0.05s)
+PASS
+ok  	pbt/tailscale	572.822s

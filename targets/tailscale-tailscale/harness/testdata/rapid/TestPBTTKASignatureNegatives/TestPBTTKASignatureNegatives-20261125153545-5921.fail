@@ -1,0 +1,17 @@
+# 2026/11/25 15:35:45.630333 [TestPBTTKASignatureNegatives] [rapid] draw salt: 0x0
+# 2026/11/25 15:35:45.630791 [TestPBTTKASignatureNegatives] [rapid] draw salt2: 0x0
+# 2026/11/25 15:35:45.631192 [TestPBTTKASignatureNegatives] [rapid] draw sigpos: 0
+# 2026/11/25 15:35:45.631197 [TestPBTTKASignatureNegatives] [rapid] draw sigxor: 1
+# 2026/11/25 15:35:45.631987 [TestPBTTKASignatureNegatives] Inform accepted update signed by untrusted key
+# 
+v0.4.8#65861701159598986
+0x0
+0x0
+0x0
+0x0
+0x0
+0x0
+0x0
+0x0
+0x0
+0x0
