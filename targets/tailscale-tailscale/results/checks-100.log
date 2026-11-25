@@ -1,0 +1,81 @@
+>> running property tests with -rapid.checks=100
+=== RUN   TestPBTArtSingleInsertGet
+    art_test.go:88: [rapid] OK, passed 100 tests (2.505485ms)
+--- PASS: TestPBTArtSingleInsertGet (0.00s)
+=== RUN   TestPBTArtModelVsSequence
+    art_test.go:104: [rapid] OK, passed 100 tests (11.776439ms)
+--- PASS: TestPBTArtModelVsSequence (0.01s)
+=== RUN   TestPBTArtOverwriteLastWins
+    art_test.go:131: [rapid] OK, passed 100 tests (1.406027ms)
+--- PASS: TestPBTArtOverwriteLastWins (0.00s)
+=== RUN   TestPBTArtInsertMasksPrefix
+    art_test.go:148: [rapid] OK, passed 100 tests (2.312325ms)
+--- PASS: TestPBTArtInsertMasksPrefix (0.00s)
+=== RUN   TestPBTArtFamilyIsolation
+    art_test.go:166: [rapid] OK, passed 100 tests (1.831084ms)
+--- PASS: TestPBTArtFamilyIsolation (0.00s)
+=== RUN   TestPBTDiscoPingRoundTrip
+    codec_dns_cmpver_test.go:33: [rapid] OK, passed 100 tests (671.817µs)
+--- PASS: TestPBTDiscoPingRoundTrip (0.00s)
+=== RUN   TestPBTDiscoPongRoundTrip
+    codec_dns_cmpver_test.go:54: [rapid] OK, passed 100 tests (525.487µs)
+--- PASS: TestPBTDiscoPongRoundTrip (0.00s)
+=== RUN   TestPBTDiscoCallMeMaybeRoundTrip
+    codec_dns_cmpver_test.go:77: [rapid] OK, passed 100 tests (683.023µs)
+--- PASS: TestPBTDiscoCallMeMaybeRoundTrip (0.00s)
+=== RUN   TestPBTDiscoParseNeverPanics
+    codec_dns_cmpver_test.go:107: [rapid] OK, passed 100 tests (858.987µs)
+--- PASS: TestPBTDiscoParseNeverPanics (0.00s)
+=== RUN   TestPBTDerpFrameHeaderRoundTrip
+    codec_dns_cmpver_test.go:123: [rapid] OK, passed 100 tests (261.713µs)
+--- PASS: TestPBTDerpFrameHeaderRoundTrip (0.00s)
+=== RUN   TestPBTDerpFrameHeaderNeverPanics
+    codec_dns_cmpver_test.go:143: [rapid] OK, passed 100 tests (341.863µs)
+--- PASS: TestPBTDerpFrameHeaderNeverPanics (0.00s)
+=== RUN   TestPBTDnsnameToFQDNFixedPoint
+    codec_dns_cmpver_test.go:164: [rapid] OK, passed 100 tests (1.837794ms)
+--- PASS: TestPBTDnsnameToFQDNFixedPoint (0.00s)
+=== RUN   TestPBTDnsnameToFQDNRejects
+    codec_dns_cmpver_test.go:206: [rapid] OK, passed 100 tests (319.229µs)
+--- PASS: TestPBTDnsnameToFQDNRejects (0.00s)
+=== RUN   TestPBTDnsnameSanitizeLabel
+    codec_dns_cmpver_test.go:233: [rapid] OK, passed 100 tests (266.749µs)
+--- PASS: TestPBTDnsnameSanitizeLabel (0.00s)
+=== RUN   TestPBTDnsnameParentContains
+    codec_dns_cmpver_test.go:253: [rapid] OK, passed 100 tests (569.764µs)
+--- PASS: TestPBTDnsnameParentContains (0.00s)
+=== RUN   TestPBTCmpverAntisymmetry
+    codec_dns_cmpver_test.go:307: [rapid] OK, passed 100 tests (831.596µs)
+--- PASS: TestPBTCmpverAntisymmetry (0.00s)
+=== RUN   TestPBTCmpverTransitivity
+    codec_dns_cmpver_test.go:324: [rapid] OK, passed 100 tests (1.037806ms)
+--- PASS: TestPBTCmpverTransitivity (0.00s)
+=== RUN   TestPBTCmpverDottedNumericModel
+    codec_dns_cmpver_test.go:344: [rapid] OK, passed 100 tests (1.437204ms)
+--- PASS: TestPBTCmpverDottedNumericModel (0.00s)
+=== RUN   TestPBTPacketDecodeNeverPanics
+    packet_filter_test.go:18: [rapid] OK, passed 100 tests (191.147µs)
+--- PASS: TestPBTPacketDecodeNeverPanics (0.00s)
+=== RUN   TestPBTPacketDecodeTruncationsNeverPanic
+    packet_filter_test.go:28: [rapid] OK, passed 100 tests (528.452µs)
+--- PASS: TestPBTPacketDecodeTruncationsNeverPanic (0.00s)
+=== RUN   TestPBTPacketUDP4RoundTrip
+    packet_filter_test.go:51: [rapid] OK, passed 100 tests (475.352µs)
+--- PASS: TestPBTPacketUDP4RoundTrip (0.00s)
+=== RUN   TestPBTPacketIP4RoundTrip
+    packet_filter_test.go:79: [rapid] OK, passed 100 tests (438.517µs)
+--- PASS: TestPBTPacketIP4RoundTrip (0.00s)
+=== RUN   TestPBTPacketDecodeDeterministic
+    packet_filter_test.go:96: [rapid] OK, passed 100 tests (213.48µs)
+--- PASS: TestPBTPacketDecodeDeterministic (0.00s)
+=== RUN   TestPBTFilterCheckVsModel
+    packet_filter_test.go:173: [rapid] OK, passed 100 tests (1.919647ms)
+--- PASS: TestPBTFilterCheckVsModel (0.00s)
+=== RUN   TestPBTFilterEmptyDropsAll
+    packet_filter_test.go:197: [rapid] OK, passed 100 tests (431.677µs)
+--- PASS: TestPBTFilterEmptyDropsAll (0.00s)
+=== RUN   TestPBTFilterMismatchedFamiliesDrop
+    packet_filter_test.go:211: [rapid] OK, passed 100 tests (683.304µs)
+--- PASS: TestPBTFilterMismatchedFamiliesDrop (0.00s)
+PASS
+ok  	pbt/tailscale	0.045s

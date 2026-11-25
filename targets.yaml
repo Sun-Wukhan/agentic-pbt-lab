@@ -123,6 +123,15 @@ wave4:  # high-risk flagship libraries (added 2026-10-31, Navid's call)
     surfaces: [version parse/coercion round-trips, SemVer §11 ordering vs independent model, Inc*/Set* semantics, constraint Check/Validate model, range equivalences, constraint String round-trips]
     status: triaged (22 properties, 100 + 2,000 checks; 1 confirmed bug — prerelease numeric identifiers >uint64 compared lexically in comparePrePart, not filed per run instructions)
 
+wave5:  # flagship Go networking (added 2026-11-25)
+  - slug: tailscale-tailscale
+    repo: tailscale/tailscale
+    lang: go
+    framework: rapid
+    version: "tailscale main @ 445df50dcf76b6172dc4688c2097c47878f41641, Go 1.27.4 toolchain, rapid v1.2.0"
+    surfaces: [net/art routing table vs brute-force LPM model, net/packet decode/encode round-trips and no-panic, wgengine/filter Check vs reference model, disco message codec round-trips, derp frame header reader, util/dnsname validation invariants, util/cmpver ordering vs independent model]
+    status: triaged (26 properties; all pass at 100 + 2,000 checks; 1 counterexample during bring-up = harness artifact, localNets=nil in the filter setup, findings/001; 0 confirmed bugs, nothing filed)
+
 excluded:
   - repo: openbao/openbao
     reason: "Project policy bans AI-generated contributions (Navid, 2026-10-21: skip entirely)."
